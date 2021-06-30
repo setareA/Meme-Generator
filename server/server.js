@@ -7,7 +7,7 @@ const passportLocal = require('passport-local');
 const session = require('express-session'); // session middleware
 
 const userDao = require('./user-dao');
-//const dao = require("./dao"); 
+const memeDao = require("./meme-dao"); 
 
 passport.use(new passportLocal.Strategy((username, password, done) => {
   // verification callback for authentication
