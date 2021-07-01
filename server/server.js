@@ -77,8 +77,8 @@ app.get(
      */
     memeDao
       .listMemes()
-      .then((meme) => {
-        res.status(200).json(meme);
+      .then((memes) => {
+        res.status(200).json(memes);
       })
       .catch((error) => {
         res.status(500).json(error.message);
@@ -89,15 +89,36 @@ app.get(
 app.get("/api/memes/public", (req, res) => {
   memeDao
     .listPublicMemes()
-    .then((meme) => {
-      res.status(200).json(meme);
+    .then((memes) => {
+      res.status(200).json(memes);
     })
     .catch((error) => {
       res.status(500).json(error.message);
     });
 });
 
-// activate the server
+app.get(
+  "/api/memes/:id",
+  /* isLoggedIn ,*/ (req, res) => {
+    const id = req.params.id;
+    memeDao
+      .getMeme(id)
+      .then((meme) => {
+        if (meme.visibility == "protected") {
+          /*
+          * check isloggedin , and creator type
+          if ok resolve meme o.w reject
+          */
+        }
+        res.status(200).json(meme);
+      })
+      .catch((error) => {
+        if (error.code && error.code == 404) res.status(404).json(error);
+        else res.status(500).json(error);
+      });
+  }
+);
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
