@@ -72,7 +72,7 @@ const isLoggedIn = (req, res, next) => {
          res.status(200).json(meme);
        })
        .catch((error) => {
-         res.status(500).json(error);
+         res.status(500).json(error.message);
        });
    });
   
