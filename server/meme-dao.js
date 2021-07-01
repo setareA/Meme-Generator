@@ -56,6 +56,34 @@ exports.getMeme = (id) => {
   });
 };
 
+exports.getUserByMemeId = (memeId) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT user_id FROM meme WHERE id = ?";
+    db.get(sql, [memeId], (error, row) => {
+      if (error) {
+        reject({ error: "db error" });
+      }
+      if (row == undefined) {
+        reject({ error: "meme not found." });
+      } else {
+        resolve(row.user_id);
+      }
+    });
+  });
+};
+
+exports.deleteMeme = (id) => {
+  return new Promise((resolve, reject) => {
+    const sql = "DELETE FROM meme WHERE id=?";
+    db.run(sql, [id], (err) => {
+      if (err) {
+        reject(err);
+        return;
+      } else resolve("ok");
+    });
+  });
+};
+
 const convertResultSetToDomainModel = (rows) => {
   const memes = rows.map((e) => ({
     id: e.id,

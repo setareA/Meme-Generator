@@ -119,6 +119,29 @@ app.get(
   }
 );
 
+app.delete(
+  "/api/memes/:id",
+  /* isLoggedIn,*/ (req, res) => {
+    //  todo: check if logged in
+    memeDao
+      .getUserByMemeId(req.params.id)
+      .then((userId) => {
+        // todo: check if userId is the req.user.id o.w: 401
+        memeDao
+          .deleteMeme(req.params.id)
+          .then(() => {
+            res.status(204).json();
+          })
+          .catch((error) => {
+            res.status(500).json(error);
+          });
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+);
+
 // login
 app.post("/api/sessions", function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
