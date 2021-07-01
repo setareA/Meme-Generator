@@ -63,6 +63,18 @@ const isLoggedIn = (req, res, next) => {
   // tell passport to use session cookies
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.get("/api/memes" ,/* isLoggedIn, */(req, res) => {
+  
+     memeDao
+       .listMemes()
+       .then((meme) => {
+         res.status(200).json(meme);
+       })
+       .catch((error) => {
+         res.status(500).json(error);
+       });
+   });
   
 
 // activate the server
