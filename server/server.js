@@ -146,8 +146,8 @@ app.post(
     const userId = 1; // to be changed
     memeDao
       .createMeme(req.body, userId)
-      .then(() => {
-        res.status(200).json();
+      .then((result) => {
+        res.status(200).json(result);
       })
       .catch((error) => {
         res.status(500).json(error.message);

@@ -96,19 +96,16 @@ exports.createMeme = (meme, userId) => {
     db.run(
       sql,
       [meme.imgAddr, meme.visibility, userId, meme.title, meme.numOfFields],
-      (err) => {
+      function (err) {
         if (err) {
           reject(err.message);
           return;
         }
-        console.log(this.lastID);
         resolve(this.lastID);
       }
     );
   })
     .then((memeId) => {
-      console.log("inside then");
-      console.log(memeId);
       let promises = [];
       let i = 0;
       while (i < meme.field.length) {
@@ -116,13 +113,17 @@ exports.createMeme = (meme, userId) => {
           const sql =
             "INSERT INTO meme_text(text,memeId,position)\
         VALUES (?, ? ,?)";
-          db.run(sql, [meme.field[i].text, 2, meme.field[i].pos], (err) => {
-            if (err) {
-              reject(err);
+          db.run(
+            sql,
+            [meme.field[i].text, memeId, meme.field[i].pos],
+            (err) => {
+              if (err) {
+                reject(err);
+                return;
+              }
               return;
             }
-            return;
-          });
+          );
         });
         promises.push(promise);
         i++;
