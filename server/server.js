@@ -126,9 +126,9 @@ app.get(
      * TODO:  check logged in
      */
     memeDao
-      .listMemes()
-      .then((memes) => {
-        res.status(200).json(memes);
+      .listImages()
+      .then((images) => {
+        res.status(200).json(images);
       })
       .catch((error) => {
         res.status(500).json(error.message);

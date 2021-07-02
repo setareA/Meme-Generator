@@ -11,7 +11,7 @@ exports.listMemes = () => {
         reject(err);
         return;
       }
-      const result = convertResultSetToDomainModel(rows);
+      const result = convertResultSetToDomainModelMemes(rows);
       resolve(result.filter((e) => e != null));
     });
   });
@@ -28,7 +28,7 @@ exports.listPublicMemes = () => {
         reject(err);
         return;
       }
-      const result = convertResultSetToDomainModel(rows);
+      const result = convertResultSetToDomainModelMemes(rows);
       resolve(result.filter((e) => e != null));
     });
   });
@@ -48,7 +48,7 @@ exports.getMeme = (id) => {
       if (rows.length == 0 || rows == undefined) {
         reject({ error: "meme not found.", code: 404 });
       } else {
-        const result = convertResultSetToDomainModel(rows);
+        const result = convertResultSetToDomainModelMemes(rows);
         const meme = result.filter((e) => e != null)[0];
         resolve(meme);
       }
@@ -72,6 +72,21 @@ exports.getUserByMemeId = (memeId) => {
   });
 };
 
+exports.listImages = () => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "SELECT * FROM image INNER JOIN image_field on image.image_id = image_field.image_id";
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const result = convertResultSetToDomainModelImage(rows);
+      resolve(result.filter((e) => e != null));
+    });
+  });
+};
+
 exports.deleteMeme = (id) => {
   return new Promise((resolve, reject) => {
     const sql = "DELETE FROM meme WHERE id=?";
@@ -84,7 +99,7 @@ exports.deleteMeme = (id) => {
   });
 };
 
-const convertResultSetToDomainModel = (rows) => {
+const convertResultSetToDomainModelMemes = (rows) => {
   const memes = rows.map((e) => ({
     id: e.id,
     imgAddr: e.img_addr,
@@ -108,6 +123,28 @@ const convertResultSetToDomainModel = (rows) => {
       delete r[meme.id].position;
     } else {
       r[meme.id].field.push({ text: meme.text, pos: meme.position });
+    }
+    return r;
+  }, []);
+  return result;
+};
+
+const convertResultSetToDomainModelImage = (rows) => {
+  const images = rows.map((e) => ({
+    id: e.image_id,
+    imgAddr: e.img_addr,
+    position: e.position,
+    field: [],
+  }));
+
+  const result = images.reduce(function (r, image) {
+    r[image.id] = r[image.id] || {}; // if it's undefined set to {}
+    if (Object.keys(r[image.id]).length === 0) {
+      r[image.id] = image;
+      r[image.id].field.push({ pos: image.position });
+      delete r[image.id].position;
+    } else {
+      r[image.id].field.push({ pos: image.position });
     }
     return r;
   }, []);
