@@ -4,7 +4,7 @@ const db = require("./db");
 exports.listMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
-      "SELECT * FROM meme INNER JOIN field on meme.id = field.memeId\
+      "SELECT * FROM meme INNER JOIN meme_text on meme.id = meme_text.memeId\
        INNER JOIN user on meme.user_id = user.user_id";
     db.all(sql, [], (err, rows) => {
       if (err) {
@@ -20,7 +20,7 @@ exports.listMemes = () => {
 exports.listPublicMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
-      "SELECT * FROM meme INNER JOIN field on meme.id = field.memeId\
+      "SELECT * FROM meme INNER JOIN meme_text on meme.id = meme_text.memeId\
        INNER JOIN user on meme.user_id = user.user_id\
         WHERE visibility = ?";
     db.all(sql, ["public"], (err, rows) => {
@@ -37,7 +37,7 @@ exports.listPublicMemes = () => {
 exports.getMeme = (id) => {
   return new Promise((resolve, reject) => {
     const sql =
-      "SELECT * FROM meme INNER JOIN field on meme.id = field.memeId\
+      "SELECT * FROM meme INNER JOIN meme_text on meme.id = meme_text.memeId\
     INNER JOIN user on meme.user_id = user.user_id\
      WHERE id= ?";
     db.all(sql, [id], (error, rows) => {

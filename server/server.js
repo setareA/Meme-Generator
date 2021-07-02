@@ -119,6 +119,23 @@ app.get(
   }
 );
 
+app.get(
+  "/api/images",
+  /* isLoggedIn, */ (req, res) => {
+    /*
+     * TODO:  check logged in
+     */
+    memeDao
+      .listMemes()
+      .then((memes) => {
+        res.status(200).json(memes);
+      })
+      .catch((error) => {
+        res.status(500).json(error.message);
+      });
+  }
+);
+
 app.delete(
   "/api/memes/:id",
   /* isLoggedIn,*/ (req, res) => {
