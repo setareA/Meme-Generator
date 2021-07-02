@@ -104,12 +104,12 @@ exports.createMeme = (meme, userId) => {
         resolve(this.lastID);
       }
     );
-  })
-    .then((memeId) => {
-      let promises = [];
-      let i = 0;
-      while (i < meme.field.length) {
-        const promise = new Promise((resolve, reject) => {
+  }).then((memeId) => {
+    let promises = [];
+    let i = 0;
+    while (i < meme.field.length) {
+      promises.push(
+        new Promise((resolve, reject) => {
           const sql =
             "INSERT INTO meme_text(text,memeId,position)\
         VALUES (?, ? ,?)";
@@ -121,18 +121,21 @@ exports.createMeme = (meme, userId) => {
                 reject(err);
                 return;
               }
-              return;
+              resolve();
             }
           );
-        });
-        promises.push(promise);
-        i++;
-      }
-      Promise.all(promises)
-        .then(() => resolve())
-        .catch((error) => reject(error));
-    })
-    .catch((error) => reject(error));
+        })
+      );
+      i++;
+    }
+    return Promise.all(promises)
+      .then(() => {
+        return this.getMeme(memeId);
+      })
+      .catch((error) => {
+        return error;
+      });
+  });
 };
 
 exports.deleteMeme = (id) => {
