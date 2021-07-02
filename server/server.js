@@ -155,6 +155,53 @@ app.post(
   }
 );
 
+app.post(
+  "/api/memes/copy/:id",
+  /*isLoggedIn, */ (req, res) => {
+    /*
+     * todo: check if user is creator o.w : 401
+     * create userId a
+     */
+    const userId = 1; // to be changed
+    memeDao
+      .getMeme(req.params.id)
+      .then((meme) => {
+        if (meme.userId == userId) {
+          // meme to be copied belongs to the same creator
+          req.body.imgAddr = meme.imgAddr; // make sure the image won't change
+          memeDao
+            .createMeme(req.body, userId)
+            .then((result) => {
+              res.status(200).json(result);
+            })
+            .catch((error) => {
+              res.status(500).json(error);
+            });
+        } else {
+          // the meme belongs to a different creator
+          if (meme.visibility == "public") {
+            req.body.imgAddr = meme.imgAddr;
+          } else {
+            //protected image
+            req.body.imgAddr = meme.imgAddr;
+            req.body.visibility = "protected";
+          }
+          memeDao
+            .createMeme(req.body, userId)
+            .then((result) => {
+              res.status(200).json(result);
+            })
+            .catch((error) => {
+              res.status(500).json(error);
+            });
+        }
+      })
+      .catch((error) => {
+        if (error.code && error.code == 404) res.status(404).json(error);
+        else res.status(500).json(error);
+      });
+  }
+);
 app.delete(
   "/api/memes/:id",
   /* isLoggedIn,*/ (req, res) => {
