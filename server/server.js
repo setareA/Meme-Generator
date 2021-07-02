@@ -166,9 +166,9 @@ app.post(
     memeDao
       .getMeme(req.params.id)
       .then((meme) => {
+        req.body.imgAddr = meme.imgAddr; // make sure the image won't change
         if (meme.userId == userId) {
           // meme to be copied belongs to the same creator
-          req.body.imgAddr = meme.imgAddr; // make sure the image won't change
           memeDao
             .createMeme(req.body, userId)
             .then((result) => {
@@ -179,11 +179,7 @@ app.post(
             });
         } else {
           // the meme belongs to a different creator
-          if (meme.visibility == "public") {
-            req.body.imgAddr = meme.imgAddr;
-          } else {
-            //protected image
-            req.body.imgAddr = meme.imgAddr;
+          if (meme.visibility == "protected") {
             req.body.visibility = "protected";
           }
           memeDao
