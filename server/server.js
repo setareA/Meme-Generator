@@ -136,6 +136,25 @@ app.get(
   }
 );
 
+app.post(
+  "/api/memes",
+  /*isLoggedIn, */ (req, res) => {
+    /*
+     * todo: check if user is creator o.w : 401
+     * create userId a
+     */
+    const userId = 1; // to be changed
+    memeDao
+      .createMeme(req.body, userId)
+      .then(() => {
+        res.status(200).json();
+      })
+      .catch((error) => {
+        res.status(500).json(error.message);
+      });
+  }
+);
+
 app.delete(
   "/api/memes/:id",
   /* isLoggedIn,*/ (req, res) => {

@@ -87,6 +87,53 @@ exports.listImages = () => {
   });
 };
 
+exports.createMeme = (meme, userId) => {
+  //meme.field: [{"pos": , "text": },{}]
+  return new Promise((resolve, reject) => {
+    const sql =
+      "INSERT INTO meme(img_addr,visibility,user_id,title,num_of_fields)\
+        VALUES (?, ? ,?, ?,?)";
+    db.run(
+      sql,
+      [meme.imgAddr, meme.visibility, userId, meme.title, meme.numOfFields],
+      (err) => {
+        if (err) {
+          reject(err.message);
+          return;
+        }
+        console.log(this.lastID);
+        resolve(this.lastID);
+      }
+    );
+  })
+    .then((memeId) => {
+      console.log("inside then");
+      console.log(memeId);
+      let promises = [];
+      let i = 0;
+      while (i < meme.field.length) {
+        const promise = new Promise((resolve, reject) => {
+          const sql =
+            "INSERT INTO meme_text(text,memeId,position)\
+        VALUES (?, ? ,?)";
+          db.run(sql, [meme.field[i].text, 2, meme.field[i].pos], (err) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            return;
+          });
+        });
+        promises.push(promise);
+        i++;
+      }
+      Promise.all(promises)
+        .then(() => resolve())
+        .catch((error) => reject(error));
+    })
+    .catch((error) => reject(error));
+};
+
 exports.deleteMeme = (id) => {
   return new Promise((resolve, reject) => {
     const sql = "DELETE FROM meme WHERE id=?";
