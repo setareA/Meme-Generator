@@ -76,7 +76,7 @@ app.get(
      * TODO:  check logged in and creator type
      */
     memeDao
-      .listMemes()
+      .getMemes()
       .then((memes) => {
         res.status(200).json(memes);
       })
@@ -88,7 +88,7 @@ app.get(
 
 app.get("/api/memes/public", (req, res) => {
   memeDao
-    .listPublicMemes()
+    .getPublicMemes()
     .then((memes) => {
       res.status(200).json(memes);
     })
@@ -126,7 +126,7 @@ app.get(
      * TODO:  check logged in
      */
     memeDao
-      .listImages()
+      .getmages()
       .then((images) => {
         res.status(200).json(images);
       })
@@ -162,13 +162,13 @@ app.post(
      * todo: check if user is creator o.w : 401
      * create userId a
      */
+    //req.user.user_id
     const userId = 1; // to be changed
     memeDao
       .getMeme(req.params.id)
       .then((meme) => {
         req.body.imgAddr = meme.imgAddr; // make sure the image won't change
         if (meme.userId == userId) {
-          // meme to be copied belongs to the same creator
           memeDao
             .createMeme(req.body, userId)
             .then((result) => {

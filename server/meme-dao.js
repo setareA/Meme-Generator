@@ -1,7 +1,7 @@
 "use strict";
 const db = require("./db");
 
-exports.listMemes = () => {
+exports.getMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
       "SELECT * FROM meme INNER JOIN meme_text on meme.id = meme_text.memeId\
@@ -12,12 +12,12 @@ exports.listMemes = () => {
         return;
       }
       const result = convertResultSetToDomainModelMemes(rows);
-      resolve(result.filter((e) => e != null));
+      resolve(result);
     });
   });
 };
 
-exports.listPublicMemes = () => {
+exports.getPublicMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
       "SELECT * FROM meme INNER JOIN meme_text on meme.id = meme_text.memeId\
@@ -29,7 +29,7 @@ exports.listPublicMemes = () => {
         return;
       }
       const result = convertResultSetToDomainModelMemes(rows);
-      resolve(result.filter((e) => e != null));
+      resolve(result);
     });
   });
 };
@@ -49,7 +49,7 @@ exports.getMeme = (id) => {
         reject({ error: "meme not found.", code: 404 });
       } else {
         const result = convertResultSetToDomainModelMemes(rows);
-        const meme = result.filter((e) => e != null)[0];
+        const meme = result[0];
         resolve(meme);
       }
     });
@@ -72,7 +72,7 @@ exports.getUserByMemeId = (memeId) => {
   });
 };
 
-exports.listImages = () => {
+exports.getImages = () => {
   return new Promise((resolve, reject) => {
     const sql =
       "SELECT * FROM image INNER JOIN image_field on image.image_id = image_field.image_id";
@@ -82,7 +82,7 @@ exports.listImages = () => {
         return;
       }
       const result = convertResultSetToDomainModelImage(rows);
-      resolve(result.filter((e) => e != null));
+      resolve(result);
     });
   });
 };
@@ -177,7 +177,7 @@ const convertResultSetToDomainModelMemes = (rows) => {
     }
     return r;
   }, []);
-  return result;
+  return result.filter((e) => e != null);
 };
 
 const convertResultSetToDomainModelImage = (rows) => {
@@ -199,5 +199,5 @@ const convertResultSetToDomainModelImage = (rows) => {
     }
     return r;
   }, []);
-  return result;
+  return result.filter((e) => e != null);
 };
