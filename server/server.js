@@ -254,6 +254,11 @@ app.get("/api/sessions/current", isLoggedIn, (req, res) => {
   res.status(200).json(req.user);
 });
 
+app.get("/:imageName", (req, res) => {
+  const name = req.params.imageName;
+  res.sendFile(__dirname + "/images/" + name);
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
