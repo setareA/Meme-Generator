@@ -17,7 +17,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route path="/meme" component={Meme} />
+        <Route exact path="/meme/:id" component={Meme} />
         <Route exact path="/home" component={Home} />
         <Redirect to="/home" />
       </Switch>

@@ -6,8 +6,9 @@ const passport = require("passport");
 const passportLocal = require("passport-local");
 const session = require("express-session"); // session middleware
 
-const userDao = require("./user-dao");
-const memeDao = require("./meme-dao");
+const userDao = require("./dao/userDao");
+const memeDao = require("./dao/memeDao");
+const imageDao = require("./dao/imageDao");
 
 passport.use(
   new passportLocal.Strategy((username, password, done) => {
@@ -59,7 +60,7 @@ const isLoggedIn = (req, res, next) => {
 
 app.use(
   session({
-    secret: "twitty",
+    secret: "pink-panther",
     resave: false,
     saveUninitialized: false,
   })
@@ -70,32 +71,43 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get(
-  "/api/memes",
+  "/api/images",
+  /* isLoggedIn, */ (req, res) => {
+    /*
+     * TODO:  check logged in
+     */
+    imageDao
+      .getImages()
+      .then((images) => {
+        res.status(200).json(images);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+);
+
+app.get("/:imageName", (req, res) => {
+  const name = req.params.imageName;
+  res.sendFile(__dirname + "/images/" + name);
+});
+
+app.get(
+  "/api/memes/all",
   /* isLoggedIn, */ (req, res) => {
     /*
      * TODO:  check logged in and creator type
      */
     memeDao
-      .getMemes()
-      .then((memes) => {
-        res.status(200).json(memes);
+      .getAllMemes()
+      .then((allMemes) => {
+        res.status(200).json(allMemes);
       })
       .catch((error) => {
-        res.status(500).json(error.message);
+        res.status(500).json(error);
       });
   }
 );
-
-app.get("/api/memes/public", (req, res) => {
-  memeDao
-    .getPublicMemes()
-    .then((memes) => {
-      res.status(200).json(memes);
-    })
-    .catch((error) => {
-      res.status(500).json(error.message);
-    });
-});
 
 app.get(
   "/api/memes/:id",
@@ -112,29 +124,22 @@ app.get(
         }
         res.status(200).json(meme);
       })
-      .catch((error) => {
-        if (error.code && error.code == 404) res.status(404).json(error);
-        else res.status(500).json(error);
+      .catch((err) => {
+        if (err.error == "404") res.status(404).json("not found");
+        else res.status(500).json(err);
       });
   }
 );
-
-app.get(
-  "/api/images",
-  /* isLoggedIn, */ (req, res) => {
-    /*
-     * TODO:  check logged in
-     */
-    memeDao
-      .getmages()
-      .then((images) => {
-        res.status(200).json(images);
-      })
-      .catch((error) => {
-        res.status(500).json(error.message);
-      });
-  }
-);
+app.get("/api/publicMemes", (req, res) => {
+  memeDao
+    .getPublicMemes()
+    .then((publicMemes) => {
+      res.status(200).json(publicMemes);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
 
 app.post(
   "/api/memes",
@@ -144,12 +149,30 @@ app.post(
      * create userId a
      */
     const userId = 1; // to be changed
-    memeDao
-      .createMeme(req.body, userId)
-      .then((result) => {
-        res.status(200).json(result);
+    imageDao
+      .getImage(req.body.imgId)
+      .then((image) => {
+        if (image[0].numOfFields < req.body.field.length) {
+          // not letting to add more texts than allowed
+          res.status(500).json(error);
+        } else {
+          memeDao
+            .addNewMeme(req.body, userId, image[0])
+            .then((result) => {
+              if (result == "error") {
+                res
+                  .status(500)
+                  .json({ error: "positions not compatible with image" });
+              } else res.status(200).json(result);
+            })
+            .catch((error) => {
+              res.status(500).json(error);
+            });
+          //  res.status(200).json(image);
+        }
       })
       .catch((error) => {
+        if (err.error == "404") res.status(404).json("not found");
         res.status(500).json(error);
       });
   }
@@ -167,33 +190,29 @@ app.post(
     memeDao
       .getMeme(req.params.id)
       .then((meme) => {
+        const image = { imgAddr: meme.imgAddr, field: meme.field };
         req.body.imgAddr = meme.imgAddr; // make sure the image won't change
-        if (meme.userId == userId) {
-          memeDao
-            .createMeme(req.body, userId)
-            .then((result) => {
-              res.status(200).json(result);
-            })
-            .catch((error) => {
-              res.status(500).json(error);
-            });
-        } else {
+        if (meme.userId !== userId) {
           // the meme belongs to a different creator
           if (meme.visibility == "protected") {
             req.body.visibility = "protected";
           }
-          memeDao
-            .createMeme(req.body, userId)
-            .then((result) => {
-              res.status(200).json(result);
-            })
-            .catch((error) => {
-              res.status(500).json(error);
-            });
         }
+        memeDao
+          .addNewMeme(req.body, userId, image)
+          .then((result) => {
+            if (result == "error") {
+              res
+                .status(500)
+                .json({ error: "positions not compatible with image" });
+            } else res.status(200).json(result);
+          })
+          .catch((error) => {
+            res.status(500).json(error);
+          });
       })
       .catch((error) => {
-        if (error.code && error.code == 404) res.status(404).json(error);
+        if (err.error == "404") res.status(404).json("not found");
         else res.status(500).json(error);
       });
   }
@@ -252,11 +271,6 @@ app.delete("/api/sessions/current", isLoggedIn, (req, res) => {
 app.get("/api/sessions/current", isLoggedIn, (req, res) => {
   console.log(req.user);
   res.status(200).json(req.user);
-});
-
-app.get("/:imageName", (req, res) => {
-  const name = req.params.imageName;
-  res.sendFile(__dirname + "/images/" + name);
 });
 
 app.listen(port, () => {
