@@ -1,0 +1,53 @@
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+
+.footer {
+    height: 65px;
+    width: 100%;
+    background-color: rgb(54, 54, 54);
+    color: #ffffff;
+    text-align: center;
+    padding-top: 20px;
+    font-family: cursive;
+    color: rgb(128, 128, 128);
+    right: 0;
+    left: 0;
+    position: absolute;
+    bottom: 0;
+}
+
+.header {
+    background-color: whitesmoke;
+    height: 60px;
+    margin-top: 0%;
+    padding-left: 8%;
+}
+
+  .header #account {
+    width: 40%;
+}
+
+  #test {
+    float: left;
+}
+  #homelogo a {
+    all: initial;
+    cursor: pointer;
+}
+  .header-img {
+    height: 100%;
+    margin-left: 5%;
+    margin-top: 0%;
+    width: 12%;
+    float: left;
+}
+
+#content-wrap {
+    padding-bottom: 65px; /* Footer height */
+}
+    
+  
+  

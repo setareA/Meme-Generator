@@ -6,7 +6,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import "./index.css";
+import "./Styles/index.css";
 import reportWebVitals from "./reportWebVitals";
 import Login from "./Login/Login";
 import Home from "./Home/Home";
