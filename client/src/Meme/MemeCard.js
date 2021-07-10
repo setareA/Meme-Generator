@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
+import { Image } from "react-bootstrap";
 import {
   Container,
   Row,
@@ -14,21 +15,46 @@ import {
 // oggedIn={loggedIn} meme={meme}
 const MemeCard = (props) => {
   return (
-    <Col md={4}>
-      <Card className="card_item">
-        <Card.Img variant="top" src={props.meme.imgAddr} />
-        <Card.Body>
-          <Card.Title>{props.meme.title}</Card.Title>
-          <Card.Text>
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <small className="text-muted">Last updated 3 mins ago</small>
-        </Card.Footer>
-      </Card>
-    </Col>
+    <>
+      <Col md={4}>
+        <Card className="card_item">
+          <Card.Img variant="top" src={props.meme.imgAddr} />
+          <Card.Body>
+            <Card.Title>{props.meme.title}</Card.Title>
+          </Card.Body>
+          <Card.Footer>
+            <small className="text-muted">Last updated 3 mins ago</small>
+          </Card.Footer>
+        </Card>
+      </Col>
+      <Col md={4}>
+        <Card className="card_item">
+          <Card.Img
+            src={props.meme.imgAddr}
+            className="img-fluid"
+            alt="Card image"
+            style={{ height: "60px" }}
+          />
+          <Card.ImgOverlay>
+            <Card.Title> title </Card.Title>
+            <Card.Subtitle> subtitle </Card.Subtitle>
+            <Card.Subtitle style={{ textAlign: "right", fontSize: "30px" }}>
+              {" "}
+              path{" "}
+            </Card.Subtitle>
+            <Card.Subtitle> date </Card.Subtitle>
+            <Card.Body>body</Card.Body>
+            <Image fluid={props.meme.imgAddr} />
+          </Card.ImgOverlay>
+          <Card.Body>
+            <Card.Title>{props.meme.title}</Card.Title>
+          </Card.Body>
+          <Card.Footer>
+            <small className="text-muted">Last updated 3 mins ago</small>
+          </Card.Footer>
+        </Card>
+      </Col>
+    </>
   );
 };
 
