@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, NavDropdown, Nav } from "react-bootstrap";
+import { Navbar, NavDropdown, Nav, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import logo from "../Assets/logo/logo.png";
@@ -33,7 +33,7 @@ const Header = (props) => {
         </div>
       </div>
     </nav>
-*/
+
     <Navbar sticky="top" bg="light" expand="lg">
       <Navbar.Brand href="#home">
         {" "}
@@ -47,6 +47,25 @@ const Header = (props) => {
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
+    </Navbar>
+    */ <Navbar variant="dark" fixed="top" className="header">
+      <Navbar.Toggle aria-controls="left-sidebar" />
+      <Navbar.Brand href="/home">Meme Generator</Navbar.Brand>
+
+      <Nav className="justify-content-end">
+        <Navbar.Text className="mx-2">
+          {props.user && props.user.name && `Welcome, ${props.user?.name}!`}
+        </Navbar.Text>
+        <Form inline className="mx-2">
+          {props.loggedIn ? (
+            <Button variant="outline-light" onClick={props.logout}>
+              Logout
+            </Button>
+          ) : (
+            <></>
+          )}
+        </Form>
+      </Nav>
     </Navbar>
   );
 };

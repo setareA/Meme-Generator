@@ -6,12 +6,13 @@ import LoginForm from "./LoginForm";
 import API from "../API";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap/";
 import { useEffect, useState } from "react";
 // logOut
 //username
 function Login(props) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
+  const [loggedInuser, setLoggedInuser] = useState({});
 
   let history = useHistory();
 
@@ -20,12 +21,12 @@ function Login(props) {
       try {
         // here you have the user info, if already logged in
         // TODO: store them somewhere and use them, if needed
-        await API.getUserInfo().then((user) => {
-          console.log(user);
-          setUser(user);
+        await API.getUserInfo().then((u) => {
+          console.log(u);
+          setLoggedInuser(u);
+          setLoggedIn(true);
+          history.push("/home");
         });
-        setLoggedIn(true);
-        history.push("/home");
       } catch (err) {
         console.error(err.error);
       }
@@ -39,23 +40,25 @@ function Login(props) {
       const user = await API.logIn(credentials);
       console.log(user);
       console.log("loggggin");
-      props.setLoggedIn(true);
+      setLoggedIn(true);
       history.push("/home");
+      console.log("reach here");
     } catch (err) {
-      console.log(err.error);
+      console.log(err);
     }
   };
   return (
-    <div className="page-container">
-      <Header
-        logOut={props.logOut}
-        username={loggedIn ? "Hi " + user.name : "sara"}
-      />
-      <div id="content-wrap">
+    <Container fluid className="page-container">
+      <Row>
+        <Header loggedIn={loggedIn} user={loggedInuser} />
+      </Row>
+      <Row id="content-wrap">
         <LoginForm handleSubmit={doLogIn} />
-      </div>
-      <Footer></Footer>
-    </div>
+      </Row>
+      <Row>
+        <Footer></Footer>
+      </Row>
+    </Container>
   );
 }
 

@@ -28,15 +28,30 @@ function Home(props) {
     checkAuth();
   }, []);
   return (
-    <Container fluid>
+    <Container fluid className="page-container">
       <Row>
         <Header
           logOut={props.logOut}
           username={loggedIn ? "Hi " + user.name : "sara"}
         />
       </Row>
-      <Row>
+      <Row id="content-wrap">
         home <img src="/image.png" alt="tt" />
+        jsndkj
+        <br />
+        fndsfkgjfd <br />
+        sdkfgjsdfklgjskdjfgh
+        <br />
+        dsf lkfjdghskdjf
+        <br />
+        hgksdfghk <br />
+        jsdf slkdfjghks
+        <br />
+        dfhkdflghkj
+        <br />
+        ksjfksjdfkjladsnf
+        <br />
+        aksdjfnkasjndfk
       </Row>
       <Row>
         <Footer></Footer>

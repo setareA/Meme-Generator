@@ -21,9 +21,8 @@
 
 .header {
     background-color: whitesmoke;
-    height: 60px;
+    height: 65px;
     margin-top: 0%;
-    padding-left: 8%;
 }
 
   .header #account {
@@ -46,6 +45,7 @@
 }
 
 #content-wrap {
+    padding-top: 65px; /* header height */
     padding-bottom: 65px; /* Footer height */
 }
     
