@@ -61,6 +61,11 @@ function Home(props) {
           <MemeCard loggedIn={loggedIn} meme={meme} />
         ))}
       </Row>
+      {loggedIn && (
+        <Row>
+          <Button className="btn btn-lg fixed-right-bottom">&#43;</Button>
+        </Row>
+      )}
       <Row>
         <Footer></Footer>
       </Row>

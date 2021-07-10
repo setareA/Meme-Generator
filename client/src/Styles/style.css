@@ -21,9 +21,10 @@
 }
 
 .header {
-    background-color: rgb(165, 193, 209);
+    background-color: #6d567c;
     height: 65px;
     margin-top: 0%;
+    font-family: cursive;
    
 }
   #homelogo a {
@@ -56,7 +57,7 @@
 	display: flex;
 }
 .company__info{
-	background-color: #6d567c;
+	background-color: #cba4c1;
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
 	display: flex;
@@ -92,7 +93,7 @@
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #6d567c;
+	border-bottom-color: #cba4c1;
 	box-shadow: 0 0 5px rgba(0,80,80,.4); 
 	border-radius: 4px;
 }
@@ -100,26 +101,36 @@
 	transition: all .5s ease;
 	width: 70%;
 	border-radius: 30px;
-	color:#6d567c;
+	color:#cba4c1;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #6d567c;
+	border: 1px solid #cba4c1;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
 .login_btn:hover, .login_btn:focus{
-	background-color: #6d567c;
+	background-color: #cba4c1;
 	color:#fff;
 }
 
 .login_btn:disabled{
-    color:#6d567c;
+    color:#cba4c1;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #6d567c;
+	border: 1px solid #cba4c1;
 }
   
 
 .card_item {
     margin-bottom: 10px;
 }
+
+.fixed-right-bottom {
+    position: absolute;
+    right: 0;
+    bottom: 65px;
+    z-index: 1030;
+    margin: 0 1.5rem 1.5rem 0;
+    border-radius: 50%;
+    background-color: rgb(74, 137, 167);
+  }
