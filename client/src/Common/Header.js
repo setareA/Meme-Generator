@@ -9,7 +9,7 @@ const Header = (props) => {
     <Navbar variant="dark" fixed="top" className="header">
       <Navbar.Brand href="/home">Meme Generator</Navbar.Brand>
 
-      <Nav className="justify-content-end">
+      <Nav>
         <Navbar.Text className="mx-2">
           {props.user && props.user.name && `Welcome, ${props.user?.name}!`}
         </Navbar.Text>

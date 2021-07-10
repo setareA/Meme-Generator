@@ -25,18 +25,8 @@
     height: 65px;
     margin-top: 0%;
     font-family: cursive;
+    justify-content: space-between;
    
-}
-  #homelogo a {
-    all: initial;
-    cursor: pointer;
-}
-  .header-img {
-    height: 100%;
-    margin-left: 5%;
-    margin-top: 0%;
-    width: 12%;
-    float: left;
 }
 
 #content-wrap {
