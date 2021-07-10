@@ -51,7 +51,7 @@ const LoginForm = (props) => {
                   <Button
                     type="submit"
                     disabled={!validateForm()}
-                    className="btn"
+                    className="login_btn"
                   >
                     Log in
                   </Button>

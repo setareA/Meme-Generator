@@ -38,8 +38,10 @@
 }
 
 #content-wrap {
-    padding-top: 65px; /* header height */
+    padding-top: 85px; 
     padding-bottom: 65px; /* Footer height */
+    padding-left: 20px;
+    padding-right: 20px;
 }
     
 .main-content{
@@ -91,7 +93,7 @@
 	box-shadow: 0 0 5px rgba(0,80,80,.4); 
 	border-radius: 4px;
 }
-.btn{
+.login_btn{
 	transition: all .5s ease;
 	width: 70%;
 	border-radius: 30px;
@@ -102,15 +104,20 @@
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
-.btn:hover, .btn:focus{
+.login_btn:hover, .login_btn:focus{
 	background-color: #6d567c;
 	color:#fff;
 }
 
-.btn:disabled{
+.login_btn:disabled{
     color:#6d567c;
 	font-weight: 600;
 	background-color: #fff;
 	border: 1px solid #6d567c;
 }
   
+
+.card_item {
+  
+    margin-bottom: 10px;
+}
