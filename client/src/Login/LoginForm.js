@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap/";
 
 const LoginForm = (props) => {
   const [username, setUsername] = useState("");
@@ -17,21 +18,16 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row main-content bg-success text-center">
-        <div className="col-md-4 text-center company__info">
-          <span className="company__logo">
-            <h2>
-              <span className="fa fa-android"></span>
-            </h2>
-          </span>
+    <Container fluid>
+      <div className="main-content text-center">
+        <Col md={4} className="text-center company__info">
           <h4 className="company_title">Meme Generator</h4>
-        </div>
-        <div className="col-md-8 col-xs-12 col-sm-12 login_form ">
-          <div className="container-fluid">
-            <div class="row">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" className="row">
+        </Col>
+        <Col md={8} xs={12} sm={12} className="login_form ">
+          <Container fluid>
+            <Row>
+              <Form onSubmit={handleSubmit} className="form">
+                <Form.Group size="lg">
                   <Form.Control
                     type="email"
                     name="username"
@@ -41,7 +37,7 @@ const LoginForm = (props) => {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group size="lg" className="row">
+                <Form.Group size="lg">
                   <Form.Control
                     type="password"
                     name="password"
@@ -51,7 +47,7 @@ const LoginForm = (props) => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group size="lg" className="row">
+                <Form.Group size="lg">
                   <Button
                     type="submit"
                     disabled={!validateForm()}
@@ -61,11 +57,11 @@ const LoginForm = (props) => {
                   </Button>
                 </Form.Group>
               </Form>
-            </div>
-          </div>
-        </div>
+            </Row>
+          </Container>
+        </Col>
       </div>
-    </div>
+    </Container>
   );
 };
 

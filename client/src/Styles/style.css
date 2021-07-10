@@ -23,14 +23,7 @@
     background-color: whitesmoke;
     height: 65px;
     margin-top: 0%;
-}
-
-  .header #account {
-    width: 40%;
-}
-
-  #test {
-    float: left;
+   
 }
   #homelogo a {
     all: initial;
@@ -49,10 +42,9 @@
     padding-bottom: 65px; /* Footer height */
 }
     
-  
-
 .main-content{
-	width: 50%;
+    width: 40%;
+    height: 70%;
 	border-radius: 20px;
 	box-shadow: 0 5px 5px rgba(0,0,0,.4);
 	margin: 5em auto;
@@ -70,30 +62,17 @@
 .fa-android{
 	font-size:3em;
 }
-@media screen and (max-width: 640px) {
-	.main-content{width: 90%;}
-	.company__info{
-		display: none;
-	}
-	.login_form{
-		border-top-left-radius:20px;
-		border-bottom-left-radius:20px;
-	}
-}
-@media screen and (min-width: 642px) and (max-width:800px){
-	.main-content{width: 70%;}
-}
-.row > h2{
-	color:#6d567c;
-}
+
+
 .login_form{
 	background-color: #fff;
 	border-top-right-radius:20px;
+    border-top-left-radius:0px;
 	border-bottom-right-radius:20px;
 	border-top:1px solid #ccc;
 	border-right:1px solid #ccc;
 }
-form{
+.form{
 	padding: 0 2em;
 }
 .form__input{

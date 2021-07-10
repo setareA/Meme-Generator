@@ -19,8 +19,8 @@ function Home(props) {
         await API.getUserInfo().then((user) => {
           console.log(user);
           setUser(user);
+          setLoggedIn(true);
         });
-        setLoggedIn(true);
       } catch (err) {
         console.error(err.error);
       }
@@ -30,10 +30,7 @@ function Home(props) {
   return (
     <Container fluid className="page-container">
       <Row>
-        <Header
-          logOut={props.logOut}
-          username={loggedIn ? "Hi " + user.name : "sara"}
-        />
+        <Header loggedIn={loggedIn} user={user} />
       </Row>
       <Row id="content-wrap">
         home <img src="/image.png" alt="tt" />
