@@ -2,6 +2,17 @@ import axios from "axios";
 
 const url = "/api";
 
+async function getPublicMemes() {
+  return await axios
+    .get(url + "/publicMemes")
+    .then((response) => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 async function logIn(credentials) {
   let response = await fetch(url + "/sessions", {
     method: "POST",
@@ -39,5 +50,5 @@ async function getUserInfo() {
   }
 }
 
-const API = { logIn, logOut, getUserInfo };
+const API = { logIn, logOut, getUserInfo, getPublicMemes };
 export default API;

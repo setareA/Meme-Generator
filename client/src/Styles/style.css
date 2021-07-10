@@ -2,6 +2,7 @@
 .page-container {
     position: relative;
     min-height: 100vh;
+    background-color: whitesmoke;
   }
 
 .footer {
@@ -20,7 +21,7 @@
 }
 
 .header {
-    background-color: whitesmoke;
+    background-color: rgb(165, 193, 209);
     height: 65px;
     margin-top: 0%;
    
@@ -42,8 +43,10 @@
     padding-bottom: 65px; /* Footer height */
     padding-left: 20px;
     padding-right: 20px;
-}
     
+}
+
+
 .main-content{
     width: 40%;
     height: 70%;
