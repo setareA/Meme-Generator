@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Common/Footer";
+import { withRouter } from "react-router-dom";
 
 function Home(props) {
   return (
@@ -11,4 +12,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default withRouter(Home);

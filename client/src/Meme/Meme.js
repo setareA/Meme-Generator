@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { withRouter } from "react-router-dom";
 import Footer from "../Common/Footer";
 
 function Meme(props) {
@@ -11,4 +12,4 @@ function Meme(props) {
   );
 }
 
-export default Meme;
+export default withRouter(Meme);

@@ -185,7 +185,7 @@ app.post(
      * todo: check if user is creator o.w : 401
      * create userId a
      */
-    //req.user.user_id
+    //req.user.id
     const userId = 1; // to be changed
     memeDao
       .getMeme(req.params.id)
