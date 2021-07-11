@@ -43,6 +43,15 @@ const MemeModal = (props) => {
   const [font, setFont] = useState();
   const [color, setColor] = useState("#fff");
   const [field, setField] = useState([]);
+
+  const clearMeme = () => {
+    setSelectedImage();
+    setTitle();
+    setPrivateMeme();
+    setFont();
+    setColor();
+    setField([]);
+  };
   const handleAdd = (event) => {
     event.preventDefault();
     console.log(font);
@@ -50,13 +59,13 @@ const MemeModal = (props) => {
     //check errors
     // post meme
     // .then after post  setupdateMemeList((update))
-    setSelectedImage();
+    clearMeme();
   };
   const handleClose = () => {
     console.log("closing modal");
     console.log(field);
     console.log(selectedImage);
-    setSelectedImage();
+    clearMeme();
     console.log(selectedImage);
     props.handleClose();
   };
