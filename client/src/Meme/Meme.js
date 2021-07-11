@@ -60,8 +60,8 @@ function Meme(props) {
                     left: "0px",
                     bottom: "0px",
                     fontSize: "1.5em",
-                    fontFamily: "Cursive",
-                    color: "white",
+                    fontFamily: `${meme.font}`,
+                    color: `${meme.color}`,
                   }}
                 >
                   text sjdkdjfkasjdfakjsdf

@@ -76,11 +76,19 @@ exports.addNewMeme = (meme, userId, image) => {
   //meme.field: [{"pos": , "text": },{}]
   return new Promise((resolve, reject) => {
     const sql =
-      "INSERT INTO meme(imageName,visibility,userId,title,numOfSentences)\
-        VALUES (?, ? ,?, ?,?)";
+      "INSERT INTO meme(imageName,visibility,userId,title,numOfSentences,font,color)\
+        VALUES (?, ? ,?, ?,?,?,?)";
     db.run(
       sql,
-      [image.imgAddr, meme.visibility, userId, meme.title, meme.numOfFields],
+      [
+        image.imgAddr,
+        meme.visibility,
+        userId,
+        meme.title,
+        meme.field.length,
+        meme.font,
+        meme.color,
+      ],
       function (err) {
         if (err) {
           reject(err.message);
@@ -151,6 +159,8 @@ const convertResultSetToDomainModelMemes = (rows) => {
     num_of_fields: e.numOfSentences,
     text: e.text,
     position: e.position,
+    font: e.font,
+    color: e.color,
     field: [],
   }));
 

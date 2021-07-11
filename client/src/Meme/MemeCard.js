@@ -21,7 +21,7 @@ const MemeCard = (props) => {
     history.push("/meme/3");
   };
   return (
-    <Col md={4}>
+    <Col md={3}>
       <Card className="card_item">
         <Card.Img
           src={props.meme.imgAddr}

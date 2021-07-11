@@ -5,6 +5,7 @@ import Footer from "../Common/Footer";
 import Header from "../Common/Header";
 import { withRouter } from "react-router-dom";
 import MemeCard from "../Meme/MemeCard";
+import MemeModal from "../Meme/MemeModal";
 import {
   Container,
   Row,
@@ -22,7 +23,9 @@ function Home(props) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [memes, setMemes] = useState([]);
-  const [updateList, setupdateList] = useState(false);
+  const [images, setImages] = useState([]);
+  const [updateMemeList, setupdateMemeList] = useState(false);
+  const [showMemeModal, setShowMemeModal] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -48,7 +51,7 @@ function Home(props) {
       }
     };
     checkAuth();
-  }, []);
+  }, [updateMemeList]);
   /*
   useEffect(() => {
     if (!loggedIn) {
@@ -61,6 +64,16 @@ function Home(props) {
     }
   }, [updateList, loggedIn]);
   */
+  const handleAddNewMeme = () => {
+    API.getAllImages().then((images) => {
+      console.log(images);
+      setImages(images);
+      setShowMemeModal(true);
+    });
+  };
+  const handleCloseMemeModal = () => {
+    setShowMemeModal(false);
+  };
   return (
     <Container fluid className="page-container">
       <Row>
@@ -73,7 +86,18 @@ function Home(props) {
       </Row>
       {loggedIn && (
         <Row>
-          <Button className="btn btn-lg fixed-right-bottom">&#43;</Button>
+          <MemeModal
+            show={showMemeModal}
+            images={images}
+            handleClose={handleCloseMemeModal}
+            setupdateMemeList={setupdateMemeList}
+          ></MemeModal>
+          <Button
+            className="btn btn-lg fixed-right-bottom"
+            onClick={handleAddNewMeme}
+          >
+            &#43;
+          </Button>
         </Row>
       )}
       <Row>

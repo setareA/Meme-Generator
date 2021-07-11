@@ -70,28 +70,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get(
-  "/api/images",
-  /* isLoggedIn, */ (req, res) => {
-    /*
-     * TODO:  check logged in
-     */
-    imageDao
-      .getImages()
-      .then((images) => {
-        res.status(200).json(images);
-      })
-      .catch((error) => {
-        res.status(500).json(error);
-      });
-  }
-);
+app.get("/api/images", isLoggedIn, (req, res) => {
+  imageDao
+    .getImages()
+    .then((images) => {
+      res.status(200).json(images);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
 
 app.get("/:imageName", (req, res) => {
   console.log("serving image");
   const name = req.params.imageName;
-  console.log(name);
-  console.log(__dirname);
   res.sendFile(__dirname + "/images/" + name);
 });
 
@@ -143,42 +135,40 @@ app.get("/api/publicMemes", (req, res) => {
     });
 });
 
-app.post(
-  "/api/memes",
-  /*isLoggedIn, */ (req, res) => {
-    /*
-     * todo: check if user is creator o.w : 401
-     * create userId a
-     */
-    const userId = 1; // to be changed
-    imageDao
-      .getImage(req.body.imgId)
-      .then((image) => {
-        if (image[0].numOfFields < req.body.field.length) {
-          // not letting to add more texts than allowed
-          res.status(500).json(error);
-        } else {
-          memeDao
-            .addNewMeme(req.body, userId, image[0])
-            .then((result) => {
-              if (result == "error") {
-                res
-                  .status(500)
-                  .json({ error: "positions not compatible with image" });
-              } else res.status(200).json(result);
-            })
-            .catch((error) => {
-              res.status(500).json(error);
-            });
-          //  res.status(200).json(image);
-        }
-      })
-      .catch((error) => {
-        if (err.error == "404") res.status(404).json("not found");
+app.post("/api/memes", isLoggedIn, (req, res) => {
+  /*
+   * todo: check if user is creator o.w : 401
+   * create userId a
+   */
+  const userId = req.user.id; //
+  imageDao
+    .getImage(req.body.imgId)
+    .then((image) => {
+      if (image[0].numOfFields < req.body.field.length) {
+        // todo: also check font and color
+        // not letting to add more texts than allowed
         res.status(500).json(error);
-      });
-  }
-);
+      } else {
+        memeDao
+          .addNewMeme(req.body, userId, image[0])
+          .then((result) => {
+            if (result == "error") {
+              res
+                .status(500)
+                .json({ error: "positions not compatible with image" });
+            } else res.status(200).json(result);
+          })
+          .catch((error) => {
+            res.status(500).json(error);
+          });
+        //  res.status(200).json(image);
+      }
+    })
+    .catch((error) => {
+      if (err.error == "404") res.status(404).json("not found");
+      res.status(500).json(error);
+    });
+});
 
 app.post(
   "/api/memes/copy/:id",
