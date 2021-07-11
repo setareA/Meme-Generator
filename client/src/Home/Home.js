@@ -23,7 +23,7 @@ function Home(props) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [memes, setMemes] = useState([]);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState();
   const [updateMemeList, setupdateMemeList] = useState(false);
   const [showMemeModal, setShowMemeModal] = useState(false);
 
@@ -51,7 +51,7 @@ function Home(props) {
       }
     };
     checkAuth();
-  }, [updateMemeList]);
+  }, []);
   /*
   useEffect(() => {
     if (!loggedIn) {
