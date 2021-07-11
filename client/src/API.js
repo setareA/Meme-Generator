@@ -35,6 +35,17 @@ async function getMeme(id) {
     });
 }
 
+async function getAllImages() {
+  return await axios
+    .get(url + "/images")
+    .then((response) => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 async function logIn(credentials) {
   let response = await fetch(url + "/sessions", {
     method: "POST",
@@ -79,5 +90,6 @@ const API = {
   getPublicMemes,
   getAllMemes,
   getMeme,
+  getAllImages,
 };
 export default API;
