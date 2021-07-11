@@ -35,12 +35,17 @@ function Home(props) {
           setLoggedIn(true);
         });
       } catch (err) {
-        console.error(err.error);
+        setLoggedIn(false);
+        API.getPublicMemes().then((memes) => {
+          console.log(memes);
+          setMemes(memes);
+        });
+        console.error(err);
       }
     };
     checkAuth();
   }, []);
-
+  /*
   useEffect(() => {
     if (!loggedIn) {
       console.log("in use effectttttttttttt");
@@ -51,6 +56,7 @@ function Home(props) {
       });
     }
   }, [updateList, loggedIn]);
+  */
   return (
     <Container fluid className="page-container">
       <Row>

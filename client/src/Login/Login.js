@@ -28,7 +28,8 @@ function Login(props) {
           history.push("/home");
         });
       } catch (err) {
-        console.error(err.error);
+        setLoggedIn(false);
+        console.error(err);
       }
     };
     checkAuth();
