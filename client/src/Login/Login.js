@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../Styles/style.css";
 import Footer from "../Common/Footer";
 import Header from "../Common/Header";
 import LoginForm from "./LoginForm";

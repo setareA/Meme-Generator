@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
+import { useHistory } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import {
   Container,
@@ -12,8 +13,13 @@ import {
   CardColumns,
   CardDeck,
 } from "react-bootstrap/";
+import { viewIcon } from "../Common/icons";
 // oggedIn={loggedIn} meme={meme}
 const MemeCard = (props) => {
+  let history = useHistory();
+  const handleClickOnmeme = () => {
+    history.push("/meme/3");
+  };
   return (
     <Col md={4}>
       <Card className="card_item">
@@ -31,15 +37,25 @@ const MemeCard = (props) => {
             path{" "}
           </Card.Subtitle>
           <Card.Subtitle> date </Card.Subtitle>
-          <Card.Body>body</Card.Body>
           <Image fluid={props.meme.imgAddr} />
         </Card.ImgOverlay>
-        <Card.Body>
+        <Card.Body
+          onClick={() => {
+            history.push("/meme/v");
+          }}
+        >
           <Card.Title>{props.meme.title}</Card.Title>
+          <Button variant="primary">Go somewhere</Button>
         </Card.Body>
         {props.loggedIn && (
           <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
+            <span
+              onClick={() => {
+                history.push("/meme/view");
+              }}
+            >
+              {viewIcon}
+            </span>
           </Card.Footer>
         )}
       </Card>

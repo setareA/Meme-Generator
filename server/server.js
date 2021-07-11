@@ -88,7 +88,10 @@ app.get(
 );
 
 app.get("/:imageName", (req, res) => {
+  console.log("serving image");
   const name = req.params.imageName;
+  console.log(name);
+  console.log(__dirname);
   res.sendFile(__dirname + "/images/" + name);
 });
 
@@ -109,27 +112,26 @@ app.get("/api/memes/all", isLoggedIn, (req, res) => {
   }
 });
 
-app.get(
-  "/api/memes/:id",
-  /* isLoggedIn ,*/ (req, res) => {
-    const id = req.params.id;
-    memeDao
-      .getMeme(id)
-      .then((meme) => {
-        if (meme.visibility == "protected") {
-          /*
-          * check isloggedin , and creator type
-          if ok resolve meme o.w reject
-          */
+app.get("/api/memes/:id", (req, res) => {
+  const id = req.params.id;
+  memeDao
+    .getMeme(id)
+    .then((meme) => {
+      if (meme.visibility == "protected") {
+        if (req.isAuthenticated() && req.user.type === "creator") {
+          res.status(200).json(meme);
+        } else {
+          res.status(403).json({ error: "not authorized" });
         }
+      } else {
         res.status(200).json(meme);
-      })
-      .catch((err) => {
-        if (err.error == "404") res.status(404).json("not found");
-        else res.status(500).json(err);
-      });
-  }
-);
+      }
+    })
+    .catch((err) => {
+      if (err.error == "404") res.status(404).json("not found");
+      else res.status(500).json(err);
+    });
+});
 app.get("/api/publicMemes", (req, res) => {
   memeDao
     .getPublicMemes()
