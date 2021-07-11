@@ -92,12 +92,10 @@ app.get("/:imageName", (req, res) => {
   res.sendFile(__dirname + "/images/" + name);
 });
 
-app.get(
-  "/api/memes/all",
-  /* isLoggedIn, */ (req, res) => {
-    /*
-     * TODO:  check logged in and creator type
-     */
+app.get("/api/memes/all", isLoggedIn, (req, res) => {
+  console.log(req.user);
+  console.log(req.user.type);
+  if (req.user.type === "creator") {
     memeDao
       .getAllMemes()
       .then((allMemes) => {
@@ -106,8 +104,10 @@ app.get(
       .catch((error) => {
         res.status(500).json(error);
       });
+  } else {
+    res.status(403).json({ error: "not authorized" });
   }
-);
+});
 
 app.get(
   "/api/memes/:id",

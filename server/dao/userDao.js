@@ -23,6 +23,7 @@ exports.getUser = (username, password) => {
               id: row.id,
               username: row.username,
               name: row.name,
+              type: row.type,
             });
           } else resolve(false); // password not matching
         });
@@ -43,6 +44,7 @@ exports.getUserById = (id) => {
           id: row.id,
           username: row.username,
           name: row.name,
+          type: row.type,
         };
         resolve(user);
       }

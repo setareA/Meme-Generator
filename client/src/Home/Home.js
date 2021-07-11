@@ -33,6 +33,10 @@ function Home(props) {
           console.log(user);
           setUser(user);
           setLoggedIn(true);
+          API.getAllMemes().then((memes) => {
+            //console.log(memes);
+            setMemes(memes);
+          });
         });
       } catch (err) {
         setLoggedIn(false);

@@ -13,6 +13,17 @@ async function getPublicMemes() {
     });
 }
 
+async function getAllMemes() {
+  return await axios
+    .get(url + "/memes/all")
+    .then((response) => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 async function logIn(credentials) {
   let response = await fetch(url + "/sessions", {
     method: "POST",
@@ -50,5 +61,5 @@ async function getUserInfo() {
   }
 }
 
-const API = { logIn, logOut, getUserInfo, getPublicMemes };
+const API = { logIn, logOut, getUserInfo, getPublicMemes, getAllMemes };
 export default API;
