@@ -64,26 +64,6 @@
         ]
 }
 ```
-#### Get image by id
-
-* HTTP method: `GET`  URL: `/api/images/:id`
-* Description: Get the image corresponding to the id 
-* Request body: _None_
-* Response: `200 OK` (success)
-* Response body: One object describing the required image:
-
-``` JSON
-{
-        "id": 2,
-        "imgAddr": "img.png",
-        "field": [
-            {
-                "pos": "10 10"
-            }
-        ]
-}
-```
-* Error responses:  `500 Internal Server Error` (generic error), `401` (not authenticated)
 
 #### Get all memes
 
@@ -178,7 +158,7 @@
 
 * Error responses:  `500 Internal Server Error` (generic error)
 
-### Add a new meme
+#### Add a new meme
 
 * HTTP method: `POST`  URL: `/api/memes`
 * Description: Add a new meme to the memes of the logged user
@@ -200,7 +180,7 @@
 * Error responses:  `500 Internal Server Error` (generic error), `404 Not Found` (if image is not found), `401` (not authenticated), `403` (not authorized)
 
 
-### Copy meme
+#### Copy meme
 
 * HTTP method: `POST`  URL: `api/memes/copy/:id`
 * Description: copy a meme with given id 
@@ -221,7 +201,7 @@
 
 * Error responses:  `500 Internal Server Error` (generic error), `404 Not Found` (if image is not found), `401` (not authenticated), `403` (not authorized)
 
-### Delete a meme
+#### Delete a meme
 
 * HTTP method: `DELETE`  URL: `/api/memes/:id`
 * Description: Delete an existing meme of the logged user
