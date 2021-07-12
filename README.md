@@ -36,7 +36,7 @@
 
 ## Screenshot
 
-![Screenshot](./img/Screenshot.jpg)
+![Screenshot](/img/Screenshot.png)
 
 ## Users Credentials
 
