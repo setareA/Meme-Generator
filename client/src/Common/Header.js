@@ -4,13 +4,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import logo from "../Assets/logo/logo.png";
 import API from "../API";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Header = (props) => {
   let history = useHistory();
+  let location = useLocation;
   const logout = async () => {
     console.log("logging out");
     await API.logOut();
+    history.push("/login");
+  };
+  const login = () => {
     history.push("/login");
   };
   return (
@@ -27,7 +31,11 @@ const Header = (props) => {
               Logout
             </Button>
           ) : (
-            <></>
+            window.location.pathname !== "/login" && (
+              <Button variant="outline-light" onClick={login}>
+                Login
+              </Button>
+            )
           )}
         </Form>
       </Nav>
