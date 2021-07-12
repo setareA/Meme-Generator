@@ -83,7 +83,12 @@ function Home(props) {
       </Row>
       <Row id="content-wrap">
         {memes.map((meme) => (
-          <MemeCard loggedIn={loggedIn} meme={meme} />
+          <MemeCard
+            loggedIn={loggedIn}
+            meme={meme}
+            user={user}
+            setupdateMemeList={setupdateMemeList}
+          />
         ))}
       </Row>
       {loggedIn && (
@@ -94,6 +99,8 @@ function Home(props) {
             images={images}
             handleClose={handleCloseMemeModal}
             setupdateMemeList={setupdateMemeList}
+            mode="newMeme"
+            meme={{}}
           ></MemeModal>
           <Button
             className="btn btn-lg fixed-right-bottom"

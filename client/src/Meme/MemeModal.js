@@ -97,20 +97,22 @@ const MemeModal = (props) => {
     props.handleClose();
   };
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal show={props.show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Meme Info</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group>
-            <ImageList
-              images={props.images}
-              setSelectedImage={setSelectedImage}
-              setField={setField}
-            ></ImageList>
-            {selectedImage && <span>image selected</span>}
-          </Form.Group>
+          {props.mode === "newMeme" && (
+            <Form.Group>
+              <ImageList
+                images={props.images}
+                setSelectedImage={setSelectedImage}
+                setField={setField}
+              ></ImageList>
+              {selectedImage && <span>image selected</span>}
+            </Form.Group>
+          )}
           <Form.Group>
             <Form.Control
               required
@@ -120,6 +122,7 @@ const MemeModal = (props) => {
               name="title"
               id="title"
               placeholder="Title"
+              defaultValue={props.meme ? props.meme.title : title}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -128,7 +131,13 @@ const MemeModal = (props) => {
             <Form.Check
               type="checkbox"
               label="Private"
-              defaultChecked={privateMeme}
+              defaultChecked={
+                !props.meme
+                  ? privateMeme
+                  : props.meme.visibility === "protected"
+                  ? true
+                  : false
+              }
               onChange={(e) => setPrivateMeme(e.target.checked)}
             />
           </Form.Group>

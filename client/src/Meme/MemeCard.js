@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import { useHistory } from "react-router-dom";
@@ -13,51 +13,74 @@ import {
   CardColumns,
   CardDeck,
 } from "react-bootstrap/";
+import MemeModal from "../Meme/MemeModal";
 import { viewIcon } from "../Common/icons";
-// oggedIn={loggedIn} meme={meme}
+import API from "../API";
+// oggedIn={loggedIn} meme={meme} user={user} setupdateMemeList={setupdateMemeList}
 const MemeCard = (props) => {
+  const [copyMode, setCopymode] = useState();
+  const [showMemeModal, setShowMemeModal] = useState(false);
+  const [memeImage, setMemeImage] = useState();
   let history = useHistory();
   const handleClickOnmeme = () => {
     history.push("/meme/3");
   };
+  const handleCopy = () => {
+    if (props.user.id === props.meme.userId) setCopymode("copyOwn");
+    else setCopymode("copyOthers");
+    setShowMemeModal(true);
+    // setMemeImage
+    API.getImage(props.meme.imgAddr)
+      .then((image) => {
+        setMemeImage(image);
+      })
+      .catch((err) => {
+        setShowMemeModal(false);
+      });
+  };
+
+  const handleCloseMemeModal = () => {
+    setShowMemeModal(false);
+  };
+
   return (
     <Col md={3}>
       <Card className="card_item">
-        <Card.Img
-          src={props.meme.imgAddr}
-          className="img-fluid"
-          alt="Card image"
-          style={{ height: "300px", width: "100%" }}
-        />
-        <Card.ImgOverlay>
-          <Card.Title> {props.meme.title} </Card.Title>
-          <Card.Subtitle> subtitle </Card.Subtitle>
-          <Card.Subtitle style={{ textAlign: "right", fontSize: "30px" }}>
-            {" "}
-            path{" "}
-          </Card.Subtitle>
-          <Card.Subtitle> date </Card.Subtitle>
-          <Image fluid={props.meme.imgAddr} />
-        </Card.ImgOverlay>
-        <Card.Body
-          onClick={() => {
-            history.push("/meme/v");
-          }}
-        >
+        <Card.Header>
+          {" "}
           <Card.Title>{props.meme.title}</Card.Title>
-          <Button variant="primary">Go somewhere</Button>
+        </Card.Header>
+        <Card.Body>
+          <Card.Img
+            src={props.meme.imgAddr}
+            className="img-fluid"
+            alt="Card image"
+            style={{ height: "300px", width: "100%" }}
+          />
+          <Card.ImgOverlay>
+            <Card.Subtitle style={{ textAlign: "right", fontSize: "30px" }}>
+              ttt
+            </Card.Subtitle>
+            <Card.Subtitle> date </Card.Subtitle>
+            <Image fluid={props.meme.imgAddr} />
+          </Card.ImgOverlay>
         </Card.Body>
-        {props.loggedIn && (
-          <Card.Footer>
-            <span
-              onClick={() => {
-                history.push("/meme/view");
-              }}
-            >
-              {viewIcon}
-            </span>
-          </Card.Footer>
-        )}
+        <Card.Footer style={{ zIndex: "1" }}>
+          {props.loggedIn && (
+            <Button variant="primary" onClick={handleCopy}>
+              Copy
+            </Button>
+          )}
+          <MemeModal
+            show={showMemeModal}
+            setShowMemeModal={setShowMemeModal}
+            images={[memeImage]}
+            handleClose={handleCloseMemeModal}
+            setupdateMemeList={props.setupdateMemeList}
+            mode={copyMode}
+            meme={props.meme}
+          ></MemeModal>
+        </Card.Footer>
       </Card>
     </Col>
   );
@@ -75,5 +98,9 @@ title: "babaei"
 userId: 1
 userName: "first_user"
 userRealName: "setare"
-visibility: "public"*/
+visibility: "public"
+
+     
+   {" "}
+     */
 export default MemeCard;
