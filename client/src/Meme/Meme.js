@@ -128,17 +128,5 @@ function Meme(props) {
     </Container>
   );
 }
-/*
-id: e.memeId,
-    imgAddr: e.imageName, done done
-    visibility: e.visibility, done
-    userId: e.userId, done 
-    userName: e.username,
-    userRealName: e.name,
-    title: e.title,  done 
-    num_of_fields: e.numOfSentences,
-    text: e.text, done 
-    position: e.position, done 
-    field:  done */
 
 export default withRouter(Meme);

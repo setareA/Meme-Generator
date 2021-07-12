@@ -8,11 +8,6 @@ import { Button, Modal, Form } from "react-bootstrap/";
 import { useState } from "react";
 import API from "../API";
 
-/*  show
-    images
-    handleClose
-    setupdateMemeList
-*/
 const MemeModal = (props) => {
   const [selectedImage, setSelectedImage] = useState();
   const [title, setTitle] = useState(props.meme.title);
@@ -65,7 +60,6 @@ const MemeModal = (props) => {
       if (props.mode === "newMeme") {
         API.addNewMeme(newMeme)
           .then((res) => {
-            console.log(res);
             props.setupdateMemeList((update) => (update ? false : true));
             props.setShowMemeModal(false);
             clearMeme();
@@ -81,7 +75,6 @@ const MemeModal = (props) => {
       } else {
         API.copyMeme(newMeme, props.meme.id)
           .then((res) => {
-            console.log(res);
             props.setupdateMemeList((update) => (update ? false : true));
             props.setShowMemeModal(false);
             clearMeme();
@@ -98,10 +91,6 @@ const MemeModal = (props) => {
     }
   };
   const handleClose = () => {
-    //   toast.success(" Added Successfully", { autoClose: 5000 });
-    console.log("closing modal");
-    console.log(field);
-    console.log(selectedImage);
     clearMeme();
     console.log(selectedImage);
     props.handleClose();

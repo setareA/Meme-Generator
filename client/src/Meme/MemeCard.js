@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { Row, Col, Button, Card } from "react-bootstrap/";
 import MemeModal from "../Meme/MemeModal";
 import API from "../API";
-// oggedIn={loggedIn} meme={meme} user={user} setupdateMemeList={setupdateMemeList}
+
 const MemeCard = (props) => {
   const [copyMode, setCopymode] = useState();
   const [showMemeModal, setShowMemeModal] = useState(false);
@@ -22,7 +22,6 @@ const MemeCard = (props) => {
       .then((image) => {
         console.log("starting to copy");
         setMemeImage(image);
-        //    console.log([memeImage][0]);
         setShowMemeModal(true);
       })
       .catch((err) => {});
@@ -102,21 +101,4 @@ const MemeCard = (props) => {
   );
 };
 
-/*field: Array(2)
-0: {text: "kolahghermezi", pos: "top"}
-1: {text: "huuuu", pos: "toptop"}
-length: 2
-__proto__: Array(0)
-id: 110
-imgAddr: "famildur/image/"
-num_of_fields: 2
-title: "babaei"
-userId: 1
-userName: "first_user"
-userRealName: "setare"
-visibility: "public"
-
-      
-   {" "}
-     */
 export default MemeCard;

@@ -11,8 +11,7 @@ import { Container, Row } from "react-bootstrap/";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-// logOut
-//username
+
 function Login(props) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInuser, setLoggedInuser] = useState({});
@@ -38,14 +37,12 @@ function Login(props) {
 
   const doLogIn = async (credentials) => {
     try {
-      console.log("inside doLogin");
       console.log(credentials);
       const user = await API.logIn(credentials);
       console.log(user);
-      console.log("loggggin");
+
       setLoggedIn(true);
       history.push("/home");
-      console.log("reach here");
     } catch (err) {
       console.log(err);
       toast.error("wrong credentials", {

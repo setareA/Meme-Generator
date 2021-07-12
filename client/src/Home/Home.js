@@ -28,14 +28,12 @@ function Home(props) {
           setUser(user);
           setLoggedIn(true);
           API.getAllMemes().then((memes) => {
-            //console.log(memes);
             setMemes(memes);
           });
         });
       } catch (err) {
         setLoggedIn(false);
         API.getPublicMemes().then((memes) => {
-          console.log(memes);
           setMemes(memes);
         });
         console.error(err);
@@ -43,21 +41,9 @@ function Home(props) {
     };
     checkAuth();
   }, [updateMemeList]);
-  /*
-  useEffect(() => {
-    if (!loggedIn) {
-      console.log("in use effectttttttttttt");
 
-      API.getPublicMemes().then((memes) => {
-        console.log(memes);
-        setMemes(memes);
-      });
-    }
-  }, [updateList, loggedIn]);
-  */
   const handleAddNewMeme = () => {
     API.getAllImages().then((images) => {
-      console.log(images);
       setImages(images);
       setShowMemeModal(true);
     });
