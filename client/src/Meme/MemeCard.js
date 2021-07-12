@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import { useHistory } from "react-router-dom";
 import { Image } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -39,6 +41,21 @@ const MemeCard = (props) => {
       .catch((err) => {});
   };
 
+  const handleDelete = () => {
+    API.deleteMeme(props.meme.id)
+      .then(() => {
+        toast.success("🦄 Meme Deleted Successfully", {
+          autoClose: 3000,
+        });
+        props.setupdateMemeList((update) => (update ? false : true));
+      })
+      .catch((err) =>
+        toast.error("Delete Failed", {
+          autoClose: 3000,
+        })
+      );
+  };
+
   const handleCloseMemeModal = () => {
     setShowMemeModal(false);
   };
@@ -67,9 +84,20 @@ const MemeCard = (props) => {
         </Card.Body>
         <Card.Footer style={{ zIndex: "1" }}>
           {props.loggedIn && (
-            <Button variant="primary" onClick={handleCopy}>
-              Copy
-            </Button>
+            <Row>
+              <Col>
+                <Button variant="primary" onClick={handleCopy}>
+                  Copy
+                </Button>
+              </Col>
+              {props.user.id === props.meme.userId && (
+                <Col>
+                  <Button variant="danger" onClick={handleDelete}>
+                    Delete
+                  </Button>{" "}
+                </Col>
+              )}
+            </Row>
           )}
           <MemeModal
             show={showMemeModal}
