@@ -132,7 +132,7 @@ const MemeModal = (props) => {
               ></ImageList>
             )}
             {(selectedImage || props.mode !== "newMeme") && (
-              <span>image selected {props.mode}</span>
+              <span>image selected</span>
             )}
           </Form.Group>
 
@@ -200,7 +200,7 @@ const MemeModal = (props) => {
             props.mode === "newMeme" &&
             selectedImage.field.map((ImageField) => (
               <Form.Group>
-                <Form.Label>{ImageField.pos}</Form.Label>
+                <Form.Label>Position(x,y): {ImageField.pos}</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={1}
@@ -223,7 +223,7 @@ const MemeModal = (props) => {
             props.mode !== "newMeme" &&
             props.meme.field.map((memeField) => (
               <Form.Group>
-                <Form.Label>{memeField.pos}</Form.Label>
+                <Form.Label>Position(x,y): {memeField.pos}</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={1}
