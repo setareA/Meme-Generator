@@ -100,7 +100,7 @@ exports.addNewMeme = (meme, userId, image) => {
   }).then((memeId) => {
     let promises = [];
     let i = 0;
-    const allowedPos = image.field.map((f) => f.pos); // also check for 0 pos
+    const allowedPos = image.field.map((f) => f.pos);
     while (i < meme.field.length) {
       if (allowedPos.includes(meme.field[i].pos)) {
         promises.push(

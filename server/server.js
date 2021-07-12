@@ -10,6 +10,9 @@ const userDao = require("./dao/userDao");
 const memeDao = require("./dao/memeDao");
 const imageDao = require("./dao/imageDao");
 
+/**
+ * for authentication part => https://github.com/polito-WA1-AW1-2021/wa1-week12
+ */
 passport.use(
   new passportLocal.Strategy((username, password, done) => {
     // verification callback for authentication
@@ -153,7 +156,6 @@ app.post("/api/memes", isLoggedIn, (req, res) => {
       .getImage(req.body.imgId)
       .then((image) => {
         if (image[0].numOfFields < req.body.field.length) {
-          // todo: also check font and color
           // not letting to add more texts than allowed
           res.status(500).json(error);
         } else {

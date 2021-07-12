@@ -8,6 +8,8 @@ import API from "../API";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { Container, Row } from "react-bootstrap/";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 // logOut
 //username
@@ -20,8 +22,6 @@ function Login(props) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // here you have the user info, if already logged in
-        // TODO: store them somewhere and use them, if needed
         await API.getUserInfo().then((u) => {
           console.log(u);
           setLoggedInuser(u);
@@ -48,6 +48,9 @@ function Login(props) {
       console.log("reach here");
     } catch (err) {
       console.log(err);
+      toast.error("wrong credentials", {
+        autoClose: 3000,
+      });
     }
   };
 
@@ -62,6 +65,7 @@ function Login(props) {
       <Row>
         <Footer></Footer>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }
