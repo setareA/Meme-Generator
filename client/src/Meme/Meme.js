@@ -7,14 +7,12 @@ import {
   Container,
   Row,
   Col,
-  Button,
   Image,
   Card,
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap/";
 import API from "../API";
-import MemeCard from "../Meme/MemeCard";
 import { useEffect, useState } from "react";
 import { protectedIcon, publicIcon } from "../Common/icons";
 
@@ -24,12 +22,15 @@ function Meme(props) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    console.log("in use effectttttttttttt");
-    API.getMeme(props.match.params.id).then((meme) => {
-      console.log(meme);
-      setMeme(meme);
-    });
-  }, []);
+    const getMeme = async () => {
+      console.log("in use effectttttttttttt");
+      API.getMeme(props.match.params.id).then((meme) => {
+        console.log(meme);
+        setMeme(meme);
+      });
+    };
+    getMeme();
+  }, [props.match.params.id]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -67,6 +68,7 @@ function Meme(props) {
                 {meme.field &&
                   meme.field.map((fld) => (
                     <figcaption
+                      key={fld}
                       style={{
                         position: "absolute",
                         left: `${fld.pos.split(" ")[0]}px`,

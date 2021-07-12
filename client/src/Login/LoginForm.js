@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Container, Row, Col } from "react-bootstrap/";
 

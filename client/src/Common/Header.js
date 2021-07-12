@@ -1,14 +1,13 @@
 import React from "react";
-import { Navbar, NavDropdown, Nav, Form, Button } from "react-bootstrap";
+import { Navbar, Nav, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
-import logo from "../Assets/logo/logo.png";
 import API from "../API";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Header = (props) => {
   let history = useHistory();
-  let location = useLocation;
+
   const logout = async () => {
     console.log("logging out");
     await API.logOut();

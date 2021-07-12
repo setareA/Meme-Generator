@@ -1,17 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-  Modal,
-  Dropdown,
-  DropdownButton,
-  Form,
-} from "react-bootstrap/";
-import { useEffect, useState } from "react";
+import { Image, Dropdown, DropdownButton } from "react-bootstrap/";
 
 const ImageList = (props) => {
   const handleSelectImage = (image) => {
@@ -22,7 +11,7 @@ const ImageList = (props) => {
   return (
     <DropdownButton id="dropdown-basic-button" title="Select Image">
       {props.images.map((image) => (
-        <Dropdown.Item onClick={() => handleSelectImage(image)}>
+        <Dropdown.Item key={image.id} onClick={() => handleSelectImage(image)}>
           <Image src={image.imgAddr} alt="meme image" className="img-fluid" />
         </Dropdown.Item>
       ))}

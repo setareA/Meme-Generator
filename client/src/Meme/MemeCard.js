@@ -2,21 +2,10 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/style.css";
 import { useHistory } from "react-router-dom";
-import { Image } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  CardGroup,
-  Card,
-  CardColumns,
-  CardDeck,
-} from "react-bootstrap/";
+import { toast } from "react-toastify";
+import { Row, Col, Button, Card } from "react-bootstrap/";
 import MemeModal from "../Meme/MemeModal";
-import { viewIcon } from "../Common/icons";
 import API from "../API";
 // oggedIn={loggedIn} meme={meme} user={user} setupdateMemeList={setupdateMemeList}
 const MemeCard = (props) => {
@@ -24,9 +13,7 @@ const MemeCard = (props) => {
   const [showMemeModal, setShowMemeModal] = useState(false);
   const [memeImage, setMemeImage] = useState();
   let history = useHistory();
-  const handleClickOnmeme = () => {
-    history.push("/meme/3");
-  };
+
   const handleCopy = () => {
     if (props.user.id === props.meme.userId) setCopymode("copyOwn");
     else setCopymode("copyOthers");
@@ -78,6 +65,7 @@ const MemeCard = (props) => {
           {props.meme.field &&
             props.meme.field.map((fld) => (
               <Card.Subtitle
+                key={fld.pos}
                 style={{
                   position: "absolute",
                   left: `${fld.pos.split(" ")[0]}px`,

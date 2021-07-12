@@ -3,19 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import ImageList from "./ImageList";
 import { SketchPicker } from "react-color";
-import { ToastContainer, toast } from "react-toastify";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-  Modal,
-  Dropdown,
-  DropdownButton,
-  Form,
-} from "react-bootstrap/";
-import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Button, Modal, Form } from "react-bootstrap/";
+import { useState } from "react";
 import API from "../API";
 
 /*  show
@@ -199,7 +189,7 @@ const MemeModal = (props) => {
           {selectedImage &&
             props.mode === "newMeme" &&
             selectedImage.field.map((ImageField) => (
-              <Form.Group>
+              <Form.Group key={ImageField.id}>
                 <Form.Label>Position(x,y): {ImageField.pos}</Form.Label>
                 <Form.Control
                   as="textarea"
@@ -222,7 +212,7 @@ const MemeModal = (props) => {
           {props.meme &&
             props.mode !== "newMeme" &&
             props.meme.field.map((memeField) => (
-              <Form.Group>
+              <Form.Group key={memeField}>
                 <Form.Label>Position(x,y): {memeField.pos}</Form.Label>
                 <Form.Control
                   as="textarea"

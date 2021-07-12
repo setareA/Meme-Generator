@@ -7,17 +7,8 @@ import { withRouter } from "react-router-dom";
 import MemeCard from "../Meme/MemeCard";
 import MemeModal from "../Meme/MemeModal";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  CardGroup,
-  Card,
-  CardColumns,
-  CardDeck,
-} from "react-bootstrap/";
+import { ToastContainer } from "react-toastify";
+import { Container, Row, Button } from "react-bootstrap/";
 import { useEffect, useState } from "react";
 import API from "../API";
 
@@ -84,6 +75,7 @@ function Home(props) {
       <Row id="content-wrap">
         {memes.map((meme) => (
           <MemeCard
+            key={meme.id}
             loggedIn={loggedIn}
             meme={meme}
             user={user}

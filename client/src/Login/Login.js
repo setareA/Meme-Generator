@@ -7,7 +7,7 @@ import LoginForm from "./LoginForm";
 import API from "../API";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap/";
+import { Container, Row } from "react-bootstrap/";
 import { useEffect, useState } from "react";
 // logOut
 //username
@@ -34,7 +34,8 @@ function Login(props) {
       }
     };
     checkAuth();
-  }, []);
+  }, [history]);
+
   const doLogIn = async (credentials) => {
     try {
       console.log("inside doLogin");
