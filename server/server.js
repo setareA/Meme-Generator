@@ -213,11 +213,11 @@ app.post("/api/memes/copy/:id", isLoggedIn, (req, res) => {
   } else res.status(403).json({ error: "not authorized" });
 });
 app.delete("/api/memes/:id", isLoggedIn, (req, res) => {
-  id = req.user.id;
+  const id = req.user.id;
   memeDao
     .getUserByMemeId(req.params.id)
     .then((userId) => {
-      if (id == userId) {
+      if (id === userId) {
         memeDao
           .deleteMeme(req.params.id)
           .then(() => {
