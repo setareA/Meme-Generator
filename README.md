@@ -1,11 +1,11 @@
-# Exam #1234: "Exam Title"
+# Exam #1234: "Meme Generator"
 ## Student: s288485 Askarifirouzjaei Setareh
 
 ## React Client Application Routes
 
-- Route `/`: page content and purpose
-- Route `/something/:param`: page content and purpose, param specification
-- ...
+- Route `/home`: home page which contains list of memes 
+- Route `/login`: login page
+- Route `/meme/:id`: specific meme page 
 
 ## API Server
 
@@ -36,9 +36,10 @@
 
 ## Screenshot
 
-![Screenshot](./img/screenshot.jpg)
+![Screenshot](./img/Screenshot.jpg)
 
 ## Users Credentials
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
+- setare@gmail.com, 123456 
+- sara@gmail.com, asdfg
+- user@gmail.com, qwert
