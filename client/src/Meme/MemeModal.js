@@ -150,6 +150,13 @@ const MemeModal = (props) => {
                 name="group1"
                 type="radio"
                 id="serif"
+                defaultChecked={
+                  props.meme
+                    ? props.meme.font === "serif"
+                      ? "true"
+                      : false
+                    : false
+                }
                 onChange={(e) =>
                   setFont(e.target.checked ? "serif" : "Cursive")
                 }
@@ -161,6 +168,13 @@ const MemeModal = (props) => {
                 name="group1"
                 type="radio"
                 id="Cursive"
+                defaultChecked={
+                  props.meme
+                    ? props.meme.font === "Cursive"
+                      ? "true"
+                      : false
+                    : false
+                }
                 onChange={(e) =>
                   setFont(e.target.checked ? "Cursive" : "serif")
                 }
