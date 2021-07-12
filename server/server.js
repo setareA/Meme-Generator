@@ -212,14 +212,12 @@ app.post("/api/memes/copy/:id", isLoggedIn, (req, res) => {
       });
   } else res.status(403).json({ error: "not authorized" });
 });
-app.delete(
-  "/api/memes/:id",
-  /* isLoggedIn,*/ (req, res) => {
-    //  todo: check if logged in
-    memeDao
-      .getUserByMemeId(req.params.id)
-      .then((userId) => {
-        // todo: check if userId is the req.user.id o.w: 401
+app.delete("/api/memes/:id", isLoggedIn, (req, res) => {
+  id = req.user.id;
+  memeDao
+    .getUserByMemeId(req.params.id)
+    .then((userId) => {
+      if (id == userId) {
         memeDao
           .deleteMeme(req.params.id)
           .then(() => {
@@ -228,12 +226,14 @@ app.delete(
           .catch((error) => {
             res.status(500).json(error);
           });
-      })
-      .catch((error) => {
-        res.status(500).json(error);
-      });
-  }
-);
+      } else {
+        res.status(403).json({ error: "not authorized" });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
 
 // login
 app.post("/api/sessions", function (req, res, next) {
