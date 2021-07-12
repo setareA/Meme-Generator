@@ -24,12 +24,14 @@ import API from "../API";
     setupdateMemeList
 */
 const MemeModal = (props) => {
-  const [selectedImage, setSelectedImage] = useState(props.images[0]);
+  const [selectedImage, setSelectedImage] = useState();
   const [title, setTitle] = useState(props.meme.title);
-  const [privateMeme, setPrivateMeme] = useState();
-  const [font, setFont] = useState();
-  const [color, setColor] = useState("#fff");
-  const [field, setField] = useState([]);
+  const [privateMeme, setPrivateMeme] = useState(
+    props.meme.visibility === "protected" ? true : false
+  );
+  const [font, setFont] = useState(props.meme.font);
+  const [color, setColor] = useState(props.meme.color);
+  const [field, setField] = useState(props.meme.field);
 
   const clearMeme = () => {
     setSelectedImage();
@@ -70,24 +72,39 @@ const MemeModal = (props) => {
         color: color,
         field: field,
       };
-      console.log("newMeme");
-      console.log(newMeme);
-      /*
-      API.addNewMeme(newMeme)
-        .then((res) => {
-          console.log(res);
-          props.setupdateMemeList((update) => (update ? false : true));
-          props.setShowMemeModal(false);
-          clearMeme();
-          toast.success("🦄 New meme added Successfully", {
-            autoClose: 3000,
-          });
-        })
-        .catch((err) =>
-          toast.error(err.message, {
-            autoClose: 3000,
+      if (props.mode === "newMeme") {
+        API.addNewMeme(newMeme)
+          .then((res) => {
+            console.log(res);
+            props.setupdateMemeList((update) => (update ? false : true));
+            props.setShowMemeModal(false);
+            clearMeme();
+            toast.success("🦄 New meme added Successfully", {
+              autoClose: 3000,
+            });
           })
-        ); */
+          .catch((err) =>
+            toast.error("failed", {
+              autoClose: 3000,
+            })
+          );
+      } else {
+        API.copyMeme(newMeme, props.meme.id)
+          .then((res) => {
+            console.log(res);
+            props.setupdateMemeList((update) => (update ? false : true));
+            props.setShowMemeModal(false);
+            clearMeme();
+            toast.success("🦄 Meme copied Successfully", {
+              autoClose: 3000,
+            });
+          })
+          .catch((err) =>
+            toast.error("failed", {
+              autoClose: 3000,
+            })
+          );
+      }
     }
   };
   const handleClose = () => {

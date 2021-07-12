@@ -179,15 +179,9 @@ app.post("/api/memes", isLoggedIn, (req, res) => {
   } else res.status(403).json({ error: "not authorized" });
 });
 
-app.post(
-  "/api/memes/copy/:id",
-  /*isLoggedIn, */ (req, res) => {
-    /*
-     * todo: check if user is creator o.w : 401
-     * create userId a
-     */
-    //req.user.id
-    const userId = 1; // to be changed
+app.post("/api/memes/copy/:id", isLoggedIn, (req, res) => {
+  const userId = req.user.id;
+  if (req.user.type === "creator") {
     memeDao
       .getMeme(req.params.id)
       .then((meme) => {
@@ -216,8 +210,8 @@ app.post(
         if (err.error == "404") res.status(404).json("not found");
         else res.status(500).json(error);
       });
-  }
-);
+  } else res.status(403).json({ error: "not authorized" });
+});
 app.delete(
   "/api/memes/:id",
   /* isLoggedIn,*/ (req, res) => {
