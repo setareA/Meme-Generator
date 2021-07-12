@@ -24,8 +24,8 @@ import API from "../API";
     setupdateMemeList
 */
 const MemeModal = (props) => {
-  const [selectedImage, setSelectedImage] = useState();
-  const [title, setTitle] = useState();
+  const [selectedImage, setSelectedImage] = useState(props.images[0]);
+  const [title, setTitle] = useState(props.meme.title);
   const [privateMeme, setPrivateMeme] = useState();
   const [font, setFont] = useState();
   const [color, setColor] = useState("#fff");
@@ -45,7 +45,7 @@ const MemeModal = (props) => {
       toast.info("🦄 title can not be null", { autoClose: 3000 });
       foundError = true;
     }
-    if (!selectedImage) {
+    if (!selectedImage && props.mode === "newMeme") {
       toast.info("🦄 select an image first", { autoClose: 3000 });
       foundError = true;
     }
@@ -63,13 +63,16 @@ const MemeModal = (props) => {
     event.preventDefault();
     if (!checkFormErrors()) {
       const newMeme = {
-        imgId: selectedImage.id,
+        imgId: props.mode === "newMeme" ? selectedImage.id : props.images[0].id,
         visibility: privateMeme ? "protected" : "public",
         title: title,
         font: font,
         color: color,
         field: field,
       };
+      console.log("newMeme");
+      console.log(newMeme);
+      /*
       API.addNewMeme(newMeme)
         .then((res) => {
           console.log(res);
@@ -84,7 +87,7 @@ const MemeModal = (props) => {
           toast.error(err.message, {
             autoClose: 3000,
           })
-        );
+        ); */
     }
   };
   const handleClose = () => {
@@ -103,16 +106,19 @@ const MemeModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          {props.mode === "newMeme" && (
-            <Form.Group>
+          <Form.Group>
+            {props.mode === "newMeme" && (
               <ImageList
                 images={props.images}
                 setSelectedImage={setSelectedImage}
                 setField={setField}
               ></ImageList>
-              {selectedImage && <span>image selected</span>}
-            </Form.Group>
-          )}
+            )}
+            {(selectedImage || props.mode !== "newMeme") && (
+              <span>image selected {props.mode}</span>
+            )}
+          </Form.Group>
+
           <Form.Group>
             <Form.Control
               required
@@ -127,20 +133,19 @@ const MemeModal = (props) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </Form.Group>
-          <Form.Group id="privateCheckbox">
-            <Form.Check
-              type="checkbox"
-              label="Private"
-              defaultChecked={
-                !props.meme
-                  ? privateMeme
-                  : props.meme.visibility === "protected"
-                  ? true
-                  : false
-              }
-              onChange={(e) => setPrivateMeme(e.target.checked)}
-            />
-          </Form.Group>
+          {props.meme && props.meme.visibility === "protected" ? (
+            <></>
+          ) : (
+            <Form.Group id="privateCheckbox">
+              <Form.Check
+                type="checkbox"
+                label="Private"
+                defaultChecked={!props.meme ? privateMeme : false}
+                onChange={(e) => setPrivateMeme(e.target.checked)}
+              />
+            </Form.Group>
+          )}
+
           <Form.Group>
             <div key="inline-radio" className="mb-3">
               <Form.Check
@@ -173,30 +178,54 @@ const MemeModal = (props) => {
               onChangeComplete={(color) => setColor(color.hex)}
             />
           </Form.Group>
-          <Form.Group>
-            {selectedImage &&
-              selectedImage.field.map((ImageField) => (
-                <>
-                  <Form.Label>{ImageField.pos}</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={1}
-                    type="textArea"
-                    name="text"
-                    placeholder="text"
-                    onChange={(e) =>
-                      setField((oldF) =>
-                        oldF.map((fld) =>
-                          fld.pos === ImageField.pos
-                            ? { text: e.target.value, pos: ImageField.pos }
-                            : fld
-                        )
+
+          {selectedImage &&
+            props.mode === "newMeme" &&
+            selectedImage.field.map((ImageField) => (
+              <Form.Group>
+                <Form.Label>{ImageField.pos}</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={1}
+                  type="textArea"
+                  name="text"
+                  placeholder="text"
+                  onChange={(e) =>
+                    setField((oldF) =>
+                      oldF.map((fld) =>
+                        fld.pos === ImageField.pos
+                          ? { text: e.target.value, pos: ImageField.pos }
+                          : fld
                       )
-                    }
-                  />
-                </>
-              ))}
-          </Form.Group>
+                    )
+                  }
+                />
+              </Form.Group>
+            ))}
+          {props.meme &&
+            props.mode !== "newMeme" &&
+            props.meme.field.map((memeField) => (
+              <Form.Group>
+                <Form.Label>{memeField.pos}</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={1}
+                  type="textArea"
+                  name="text"
+                  placeholder="text"
+                  defaultValue={memeField.text}
+                  onChange={(e) =>
+                    setField((oldF) =>
+                      oldF.map((fld) =>
+                        fld.pos === memeField.pos
+                          ? { text: e.target.value, pos: memeField.pos }
+                          : fld
+                      )
+                    )
+                  }
+                />
+              </Form.Group>
+            ))}
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -204,7 +233,7 @@ const MemeModal = (props) => {
           Close
         </Button>
         <Button variant="primary" onClick={handleAdd}>
-          Submit
+          {props.mode !== "newMeme" ? "Copy" : "Submit"}
         </Button>
       </Modal.Footer>
     </Modal>

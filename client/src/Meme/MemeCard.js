@@ -28,15 +28,15 @@ const MemeCard = (props) => {
   const handleCopy = () => {
     if (props.user.id === props.meme.userId) setCopymode("copyOwn");
     else setCopymode("copyOthers");
-    setShowMemeModal(true);
     // setMemeImage
     API.getImage(props.meme.imgAddr)
       .then((image) => {
+        console.log("starting to copy");
         setMemeImage(image);
+        //    console.log([memeImage][0]);
+        setShowMemeModal(true);
       })
-      .catch((err) => {
-        setShowMemeModal(false);
-      });
+      .catch((err) => {});
   };
 
   const handleCloseMemeModal = () => {
