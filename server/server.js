@@ -81,6 +81,17 @@ app.get("/api/images", isLoggedIn, (req, res) => {
     });
 });
 
+app.get("/api/images/:name", isLoggedIn, (req, res) => {
+  imageDao
+    .getImagebyName(req.params.name)
+    .then((images) => {
+      res.status(200).json(images[0]);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 app.get("/:imageName", (req, res) => {
   console.log("serving image");
   const name = req.params.imageName;

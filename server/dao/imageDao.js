@@ -36,6 +36,26 @@ exports.getImage = (id) => {
   });
 };
 
+exports.getImagebyName = (name) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "SELECT * FROM image INNER JOIN image_text_field on image_text_field.imageId = image.id\
+                                                                                WHERE image.imageName = ?";
+    db.all(sql, [name], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (rows.length == 0 || rows == undefined) {
+        reject({ error: "404" });
+      } else {
+        const result = convertResultSetToDomainModelImage(rows);
+        resolve(result);
+      }
+    });
+  });
+};
+
 const convertResultSetToDomainModelImage = (rows) => {
   const images = rows.map((e) => ({
     id: e.imageId,
