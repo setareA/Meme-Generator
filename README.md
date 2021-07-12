@@ -223,7 +223,7 @@
 
 ### Delete a meme
 
-* HTTP method: `DELETE`  URL: `/api/tasks/:id`
+* HTTP method: `DELETE`  URL: `/api/memes/:id`
 * Description: Delete an existing meme of the logged user
 * Request body: _None_
 * Response: `204 OK` (success)
