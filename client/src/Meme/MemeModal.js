@@ -1,7 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import ImageList from "./ImageList";
 import { SketchPicker } from "react-color";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -14,28 +16,13 @@ import {
   Form,
 } from "react-bootstrap/";
 import { useEffect, useState } from "react";
+import API from "../API";
 
 /*  show
     images
     handleClose
     setupdateMemeList
 */
-/*
-"id": 1,
-        "imgAddr": "newimageaddre",
-        "field": [
-            {
-                "pos": "ttt"
-            }
- */
-/*
-"imgId": "1",
-    "visibility": "public",
-    "title": "notshouldbe",
-    "font":"",
-    "color":"",
-    "field":[{"text": "kk", "pos":"op"} , {"text": "jj", "pos":"toptop"} ]
- */
 const MemeModal = (props) => {
   const [selectedImage, setSelectedImage] = useState();
   const [title, setTitle] = useState();
@@ -52,16 +39,56 @@ const MemeModal = (props) => {
     setColor();
     setField([]);
   };
+  const checkFormErrors = () => {
+    let foundError = false;
+    if (!title || title === "") {
+      toast.info("🦄 title can not be null", { autoClose: 3000 });
+      foundError = true;
+    }
+    if (!selectedImage) {
+      toast.info("🦄 select an image first", { autoClose: 3000 });
+      foundError = true;
+    }
+    const emptyPos = field.filter((f) => f.text !== "");
+    if (Object.keys(emptyPos).length === 0) {
+      toast.info("🦄 at least one field should be filled", {
+        autoClose: 3000,
+      });
+      foundError = true;
+    }
+    return foundError;
+  };
+
   const handleAdd = (event) => {
     event.preventDefault();
-    console.log(font);
-    console.log(color);
-    //check errors
-    // post meme
-    // .then after post  setupdateMemeList((update))
-    clearMeme();
+    if (!checkFormErrors()) {
+      const newMeme = {
+        imgId: selectedImage.id,
+        visibility: privateMeme ? "protected" : "public",
+        title: title,
+        font: font,
+        color: color,
+        field: field,
+      };
+      API.addNewMeme(newMeme)
+        .then((res) => {
+          console.log(res);
+          props.setupdateMemeList((update) => (update ? false : true));
+          props.setShowMemeModal(false);
+          clearMeme();
+          toast.success("🦄 New meme added Successfully", {
+            autoClose: 3000,
+          });
+        })
+        .catch((err) =>
+          toast.error(err.message, {
+            autoClose: 3000,
+          })
+        );
+    }
   };
   const handleClose = () => {
+    //   toast.success(" Added Successfully", { autoClose: 5000 });
     console.log("closing modal");
     console.log(field);
     console.log(selectedImage);

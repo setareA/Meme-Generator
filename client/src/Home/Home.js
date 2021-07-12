@@ -6,6 +6,8 @@ import Header from "../Common/Header";
 import { withRouter } from "react-router-dom";
 import MemeCard from "../Meme/MemeCard";
 import MemeModal from "../Meme/MemeModal";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -51,7 +53,7 @@ function Home(props) {
       }
     };
     checkAuth();
-  }, []);
+  }, [updateMemeList]);
   /*
   useEffect(() => {
     if (!loggedIn) {
@@ -88,6 +90,7 @@ function Home(props) {
         <Row>
           <MemeModal
             show={showMemeModal}
+            setShowMemeModal={setShowMemeModal}
             images={images}
             handleClose={handleCloseMemeModal}
             setupdateMemeList={setupdateMemeList}
@@ -103,6 +106,7 @@ function Home(props) {
       <Row>
         <Footer></Footer>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }

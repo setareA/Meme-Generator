@@ -136,38 +136,36 @@ app.get("/api/publicMemes", (req, res) => {
 });
 
 app.post("/api/memes", isLoggedIn, (req, res) => {
-  /*
-   * todo: check if user is creator o.w : 401
-   * create userId a
-   */
   const userId = req.user.id; //
-  imageDao
-    .getImage(req.body.imgId)
-    .then((image) => {
-      if (image[0].numOfFields < req.body.field.length) {
-        // todo: also check font and color
-        // not letting to add more texts than allowed
+  if (req.user.type === "creator") {
+    imageDao
+      .getImage(req.body.imgId)
+      .then((image) => {
+        if (image[0].numOfFields < req.body.field.length) {
+          // todo: also check font and color
+          // not letting to add more texts than allowed
+          res.status(500).json(error);
+        } else {
+          memeDao
+            .addNewMeme(req.body, userId, image[0])
+            .then((result) => {
+              if (result == "error") {
+                res
+                  .status(500)
+                  .json({ error: "positions not compatible with image" });
+              } else res.status(200).json(result);
+            })
+            .catch((error) => {
+              res.status(500).json(error);
+            });
+          //  res.status(200).json(image);
+        }
+      })
+      .catch((error) => {
+        if (err.error == "404") res.status(404).json("not found");
         res.status(500).json(error);
-      } else {
-        memeDao
-          .addNewMeme(req.body, userId, image[0])
-          .then((result) => {
-            if (result == "error") {
-              res
-                .status(500)
-                .json({ error: "positions not compatible with image" });
-            } else res.status(200).json(result);
-          })
-          .catch((error) => {
-            res.status(500).json(error);
-          });
-        //  res.status(200).json(image);
-      }
-    })
-    .catch((error) => {
-      if (err.error == "404") res.status(404).json("not found");
-      res.status(500).json(error);
-    });
+      });
+  } else res.status(403).json({ error: "not authorized" });
 });
 
 app.post(
