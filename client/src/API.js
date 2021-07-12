@@ -9,7 +9,7 @@ async function getPublicMemes() {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -20,7 +20,7 @@ async function getAllMemes() {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -31,7 +31,7 @@ async function getMeme(id) {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -42,7 +42,7 @@ async function getAllImages() {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -53,7 +53,7 @@ async function getImage(name) {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -65,7 +65,7 @@ async function addNewMeme(meme) {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -77,7 +77,19 @@ async function copyMeme(meme, id) {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
+    });
+}
+
+async function deleteMeme(id) {
+  return await axios
+    .delete(url + `/memes/${id}`)
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch(function (error) {
+      throw error;
     });
 }
 
@@ -129,5 +141,6 @@ const API = {
   addNewMeme,
   getImage,
   copyMeme,
+  deleteMeme,
 };
 export default API;
