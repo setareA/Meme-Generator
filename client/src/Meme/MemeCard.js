@@ -62,30 +62,31 @@ const MemeCard = (props) => {
         />
 
         <Card.Footer style={{ zIndex: "1" }}>
-          {props.loggedIn && (
-            <Row>
-              <Col>
-                <Button
-                  variant="outline-info"
-                  onClick={() => history.push(`/meme/${props.meme.id}`)}
-                >
-                  View{" "}
-                </Button>
-              </Col>
+          <Row>
+            <Col>
+              <Button
+                variant="outline-info"
+                onClick={() => history.push(`/meme/${props.meme.id}`)}
+              >
+                View{" "}
+              </Button>
+            </Col>
+            {props.loggedIn && (
               <Col>
                 <Button variant="outline-primary" onClick={handleCopy}>
                   Copy
                 </Button>
               </Col>
-              {props.user.id === props.meme.userId && (
-                <Col>
-                  <Button variant="outline-danger" onClick={handleDelete}>
-                    Delete
-                  </Button>{" "}
-                </Col>
-              )}
-            </Row>
-          )}
+            )}
+            {props.loggedIn && props.user.id === props.meme.userId && (
+              <Col>
+                <Button variant="outline-danger" onClick={handleDelete}>
+                  Delete
+                </Button>{" "}
+              </Col>
+            )}
+          </Row>
+
           <MemeModal
             show={showMemeModal}
             setShowMemeModal={setShowMemeModal}
