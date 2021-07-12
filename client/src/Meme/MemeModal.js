@@ -215,7 +215,7 @@ const MemeModal = (props) => {
           {props.meme &&
             props.mode !== "newMeme" &&
             props.meme.field.map((memeField) => (
-              <Form.Group key={memeField}>
+              <Form.Group key={memeField.id}>
                 <Form.Label>Position(x,y): {memeField.pos}</Form.Label>
                 <Form.Control
                   as="textarea"
