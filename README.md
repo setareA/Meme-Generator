@@ -22,15 +22,19 @@
 
 ## Database Tables
 
-- Table `users` - contains xx yy zz
-- Table `something` - contains ww qq ss
-- ...
+- Table `meme` - contains id imagName visibility userId title numOfsentences font color
+- Table `meme_sentence` - contains id text memeId position
+- Table `image` - contains id imageName numOfFields
+- Table `image_text_field` - contains id text memeId position
+- Table `user` - contains id username password
 
 ## Main React Components
 
-- `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main functionality
-- ...
+- `Meme` (in `Meme.js`): contains all information of a meme
+- `MemeCard` (in `MemeCard.js`): each meme in the homepage which contains the button for copy, delete and view
+- `MemeModal` (in `MemeModal.js`): used for copy and creating new meme
+- `LoginForm` (in `LoginForm.js`): used for login
+- `Home` (in `Home.js`): main page, shows list of all memes
 
 (only _main_ components, minor ones may be skipped)
 
