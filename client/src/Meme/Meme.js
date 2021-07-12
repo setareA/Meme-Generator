@@ -3,10 +3,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { withRouter } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Header from "../Common/Header";
-import { Container, Row, Col, Button, Image } from "react-bootstrap/";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Image,
+  Card,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap/";
 import API from "../API";
 import MemeCard from "../Meme/MemeCard";
 import { useEffect, useState } from "react";
+import { protectedIcon, publicIcon } from "../Common/icons";
 
 function Meme(props) {
   const [meme, setMeme] = useState({});
@@ -54,21 +64,61 @@ function Meme(props) {
                   alt="meme image"
                   className="img-fluid"
                 />
-                <figcaption
-                  style={{
-                    position: "absolute",
-                    left: "0px",
-                    bottom: "0px",
-                    fontSize: "1.5em",
-                    fontFamily: `${meme.font}`,
-                    color: `${meme.color}`,
-                  }}
-                >
-                  text sjdkdjfkasjdfakjsdf
-                </figcaption>
+                {meme.field &&
+                  meme.field.map((fld) => (
+                    <figcaption
+                      style={{
+                        position: "absolute",
+                        left: `${fld.pos.split(" ")[0]}px`,
+                        bottom: `${fld.pos.split(" ")[1]}px`,
+                        fontSize: "1.5em",
+                        fontFamily: `${meme.font}`,
+                        color: `${meme.color}`,
+                      }}
+                    >
+                      {fld.text}
+                    </figcaption>
+                  ))}
               </figure>
             </Col>
-            <Col> info</Col>
+            <Col>
+              {" "}
+              <Card
+                bg="info"
+                style={{ width: "400px", marginLeft: "70px" }}
+                className="mb-2"
+              >
+                <Card.Header>
+                  <Card.Title>{meme.title} </Card.Title>
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>Created By: {meme.userRealName}</Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                  {meme.visibility === "protected" ? (
+                    <OverlayTrigger
+                      placement="bottom"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">Protected Meme</Tooltip>
+                      }
+                    >
+                      <span>{protectedIcon}</span>
+                    </OverlayTrigger>
+                  ) : (
+                    <OverlayTrigger
+                      placement="bottom"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">Public Meme</Tooltip>
+                      }
+                    >
+                      <span>{publicIcon}</span>
+                    </OverlayTrigger>
+                  )}
+                </Card.Footer>
+              </Card>
+            </Col>
           </>
         )}
       </Row>
@@ -80,15 +130,15 @@ function Meme(props) {
 }
 /*
 id: e.memeId,
-    imgAddr: e.imageName,
-    visibility: e.visibility,
-    userId: e.userId,
+    imgAddr: e.imageName, done done
+    visibility: e.visibility, done
+    userId: e.userId, done 
     userName: e.username,
     userRealName: e.name,
-    title: e.title,
+    title: e.title,  done 
     num_of_fields: e.numOfSentences,
-    text: e.text,
-    position: e.position,
-    field: [*/
+    text: e.text, done 
+    position: e.position, done 
+    field:  done */
 
 export default withRouter(Meme);

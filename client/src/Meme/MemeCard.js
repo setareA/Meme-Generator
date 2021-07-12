@@ -67,32 +67,51 @@ const MemeCard = (props) => {
           {" "}
           <Card.Title>{props.meme.title}</Card.Title>
         </Card.Header>
-        <Card.Body>
-          <Card.Img
-            src={props.meme.imgAddr}
-            className="img-fluid"
-            alt="Card image"
-            style={{ height: "300px", width: "100%" }}
-          />
-          <Card.ImgOverlay>
-            <Card.Subtitle style={{ textAlign: "right", fontSize: "30px" }}>
-              ttt
-            </Card.Subtitle>
-            <Card.Subtitle> date </Card.Subtitle>
-            <Image fluid={props.meme.imgAddr} />
-          </Card.ImgOverlay>
-        </Card.Body>
+
+        <Card.Img
+          src={props.meme.imgAddr}
+          className="img-fluid"
+          alt="Card image"
+          style={{ height: "300px", width: "100%" }}
+        />
+        <Card.ImgOverlay className="position-relative">
+          {props.meme.field &&
+            props.meme.field.map((fld) => (
+              <Card.Subtitle
+                style={{
+                  position: "absolute",
+                  left: `${fld.pos.split(" ")[0]}px`,
+                  bottom: `${fld.pos.split(" ")[1]}px`,
+                  marginBottom: "40px",
+                  fontSize: "1.5em",
+                  fontFamily: `${props.meme.font}`,
+                  color: `${props.meme.color}`,
+                }}
+              >
+                {fld.text}
+              </Card.Subtitle>
+            ))}
+        </Card.ImgOverlay>
+
         <Card.Footer style={{ zIndex: "1" }}>
           {props.loggedIn && (
             <Row>
               <Col>
-                <Button variant="primary" onClick={handleCopy}>
+                <Button
+                  variant="outline-info"
+                  onClick={() => history.push(`/meme/${props.meme.id}`)}
+                >
+                  View{" "}
+                </Button>
+              </Col>
+              <Col>
+                <Button variant="outline-primary" onClick={handleCopy}>
                   Copy
                 </Button>
               </Col>
               {props.user.id === props.meme.userId && (
                 <Col>
-                  <Button variant="danger" onClick={handleDelete}>
+                  <Button variant="outline-danger" onClick={handleDelete}>
                     Delete
                   </Button>{" "}
                 </Col>
@@ -128,7 +147,7 @@ userName: "first_user"
 userRealName: "setare"
 visibility: "public"
 
-     
+      
    {" "}
      */
 export default MemeCard;
