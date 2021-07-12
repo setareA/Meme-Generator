@@ -31,7 +31,7 @@
 
 #content-wrap {
     padding-top: 85px; 
-    padding-bottom: 65px; /* Footer height */
+    padding-bottom: 120px; /* Footer height  */
     padding-left: 20px;
     padding-right: 20px;
     
@@ -118,7 +118,7 @@
 .fixed-right-bottom {
     position: absolute;
     right: 0;
-    bottom: 65px;
+    bottom: 50px;
     z-index: 1030;
     margin: 0 1.5rem 1.5rem 0;
     border-radius: 50%;
