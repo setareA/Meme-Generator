@@ -61,25 +61,6 @@ const MemeCard = (props) => {
           alt="Card image"
           style={{ height: "300px", width: "100%" }}
         />
-        <Card.ImgOverlay className="position-relative">
-          {props.meme.field &&
-            props.meme.field.map((fld) => (
-              <Card.Subtitle
-                key={fld.pos}
-                style={{
-                  position: "absolute",
-                  left: `${fld.pos.split(" ")[0]}px`,
-                  bottom: `${fld.pos.split(" ")[1]}px`,
-                  marginBottom: "40px",
-                  fontSize: "1.5em",
-                  fontFamily: `${props.meme.font}`,
-                  color: `${props.meme.color}`,
-                }}
-              >
-                {fld.text}
-              </Card.Subtitle>
-            ))}
-        </Card.ImgOverlay>
 
         <Card.Footer style={{ zIndex: "1" }}>
           {props.loggedIn && (
